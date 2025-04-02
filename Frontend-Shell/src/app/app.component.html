@@ -1,0 +1,38 @@
+<!-- TPM Hub - Micro Frontend Container App -->
+<div class="app-container">
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <aside class="side-nav-container">
+    <div class="logo-container">
+      <h1>{{ title }}</h1>
+    </div>
+    <app-navigation></app-navigation>
+    
+    <!-- Debug Button -->
+    <div class="debug-button-container">
+      <button (click)="toggleDebugPanel()" class="debug-toggle-button" aria-label="Toggle Debug Panel">
+        <span class="debug-icon">🛠️</span>
+        <span>Debug</span>
+      </button>
+    </div>
+  </aside>
+  <div class="main-wrapper">
+    <main id="main-content" class="main-content" role="main" tabindex="-1">
+      <!-- Debug panel - only shown when debugPanelVisible is true -->
+      <div *ngIf="debugPanelVisible" class="debug-panel">
+        <h2>Debug Information</h2>
+        <p>This panel indicates that the shell application is running correctly.</p>
+        <p>Timestamp: {{currentTime}}</p>
+        <h3>Micro Frontend Status</h3>
+        <ul>
+          <li>Status Update App (Port 4201): <span id="status-mfe">Checking...</span></li>
+          <li>Release Notes App (Port 4202): <span id="release-mfe">Checking...</span></li>
+        </ul>
+        <button (click)="checkMicroFrontends()" class="refresh-button">
+          Refresh Status
+        </button>
+      </div>
+      
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+</div>
