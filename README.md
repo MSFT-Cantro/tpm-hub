@@ -2,12 +2,16 @@
 
 TPM Hub is a collection of micro-frontend applications for project management tooling.
 
-## Components
+## Applications
 
 - **Frontend-Shell**: Main application shell that hosts the micro-frontends
 - **Release Notes App**: Tool for generating release notes from Azure DevOps work items
 - **Status Update App**: Tool for posting status updates to Teams/Slack
 - **API Server**: Backend server for the applications
+
+## Repository Structure
+TPM-Hub/ ├── frontend-shell/ # Main shell application ├── release-notes-app/ # Release notes generator ├── status-update-app/ # Status update poster └── api-server/ # Backend API services
+
 
 ## Development Setup
 
@@ -26,11 +30,13 @@ TPM Hub is a collection of micro-frontend applications for project management to
 
 Use the `StartAllApps.ps1` PowerShell script to start all applications simultaneously:
 
+StartAllApps.ps1
+
 Or start each application individually:
 
 cd api-server npm start
 
-cd ../Frontend-Shell npm start
+cd ../frontend-shell npm start
 
 cd ../release-notes-app npm start
 
