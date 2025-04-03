@@ -1,28 +1,32 @@
 .status-form-container {
-  background-color: #fff;
+  background-color: var(--background-color);
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--card-shadow);
   padding: 30px;
   margin-bottom: 30px;
   max-width: 800px;
   margin-left: auto;
   margin-right: auto;
+  border: 1px solid var(--accent-color);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
 .form-title, .preview-title {
   font-size: 24px;
   margin-bottom: 25px;
-  color: #2c3e50;
+  color: var(--text-color);
   font-weight: 600;
   text-align: center;
   position: relative;
+  text-transform: uppercase;
+  letter-spacing: 1px;
   
   &:after {
     content: '';
     display: block;
-    width: 50px;
+    width: 80px;
     height: 4px;
-    background: linear-gradient(to right, #4285f4, #34a853);
+    background: var(--gradient-color);
     margin: 12px auto 0;
     border-radius: 2px;
   }
@@ -37,7 +41,7 @@
   align-items: center;
   margin-bottom: 8px;
   font-weight: 500;
-  color: #455a64;
+  color: var(--text-secondary);
   
   .label-icon {
     margin-right: 8px;
@@ -48,58 +52,263 @@
 .form-control {
   width: 100%;
   padding: 12px 15px;
-  border: 1px solid #dde2e5;
+  border: 1px solid var(--border-color);
   border-radius: 8px;
   font-size: 16px;
   transition: all 0.3s ease;
+  background-color: var(--input-background);
+  color: var(--text-color);
   
   &:focus {
-    border-color: #4285f4;
+    border-color: var(--accent-color);
     outline: none;
-    box-shadow: 0 0 0 3px rgba(66, 133, 244, 0.1);
+    box-shadow: 0 0 0 3px var(--accent-light);
   }
   
   &.is-invalid {
-    border-color: #ea4335;
-    box-shadow: 0 0 0 3px rgba(234, 67, 53, 0.1);
+    border-color: var(--error-color);
+    box-shadow: 0 0 0 3px var(--error-bg);
   }
   
   &::placeholder {
-    color: #b0bec5;
+    color: var(--text-muted);
   }
 }
 
 textarea.form-control {
   resize: vertical;
   min-height: 120px;
+  font-family: 'Consolas', monospace;
+  
+  // Terminal-like appearance for status message
+  background-color: var(--terminal-bg);
+  color: var(--terminal-text);
+  border-color: var(--accent-color);
+  
+  &::placeholder {
+    color: var(--text-muted);
+  }
+}
+
+/* Status options (filters) and visibility option styling */
+.status-options, .visibility-options {
+  margin-bottom: 30px;
+  padding: 20px;
+  border-radius: 8px;
+  background-color: var(--background-secondary);
+  transition: background-color 0.3s ease;
+}
+
+/* Options title styling */
+.options-title {
+  font-size: 18px;
+  margin-bottom: 15px;
+  color: var(--text-secondary);
+  font-weight: 500;
+  position: relative;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  
+  &:before {
+    content: '🔄';
+    margin-right: 8px;
+    font-size: 18px;
+  }
+  
+  &:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 40px;
+    height: 3px;
+    background-color: var(--accent-color);
+    border-radius: 1.5px;
+  }
+}
+
+/* Radio button styling */
+.radio-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.radio-option {
+  flex: 1;
+  min-width: 120px;
+  
+  .radio-input {
+    position: absolute;
+    opacity: 0;
+    
+    &:checked + .radio-label {
+      background-color: var(--accent-light);
+      border-color: var(--accent-color);
+      
+      .radio-text {
+        color: var(--accent-color);
+        font-weight: 500;
+      }
+      
+      &:after {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+    
+    &:focus + .radio-label {
+      box-shadow: 0 0 0 3px var(--accent-light);
+    }
+  }
+  
+  .radio-label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px 10px;
+    cursor: pointer;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    position: relative;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    
+    &:hover {
+      background-color: var(--background-secondary);
+    }
+    
+    &:after {
+      content: '';
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background-color: var(--accent-color);
+      transform: scale(0);
+      opacity: 0;
+      transition: all 0.2s ease;
+    }
+    
+    .radio-icon {
+      font-size: 24px;
+      margin-bottom: 8px;
+    }
+    
+    .radio-text {
+      font-size: 14px;
+      text-align: center;
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+  }
+}
+
+/* Status options grid */
+.options-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 15px;
+}
+
+.option-card {
+  position: relative;
+  
+  .option-checkbox {
+    position: absolute;
+    opacity: 0;
+    
+    &:checked + .option-label {
+      background-color: var(--accent-light);
+      border-color: var(--accent-color);
+      
+      .option-name {
+        color: var(--accent-color);
+        font-weight: 500;
+      }
+    }
+    
+    &:focus + .option-label {
+      box-shadow: 0 0 0 3px var(--accent-light);
+    }
+  }
+  
+  .option-label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 15px 10px;
+    cursor: pointer;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    background-color: var(--background-color);
+    
+    &:hover {
+      background-color: var(--background-secondary);
+    }
+    
+    .option-icon {
+      font-size: 24px;
+      margin-bottom: 8px;
+    }
+    
+    .option-name {
+      font-size: 14px;
+      text-align: center;
+      color: var(--text-secondary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      width: 100%;
+    }
+  }
+}
+
+/* Character count for comments */
+.character-count {
+  text-align: right;
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-top: 5px;
+  
+  &.limit-reached {
+    color: var(--error-color);
+    font-weight: bold;
+  }
 }
 
 /* Button styles - updated to match app style */
 .form-actions, .preview-actions {
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
   gap: 15px;
   margin-top: 30px;
 
   .btn {
     display: flex;
     align-items: center;
-    padding: 10px 16px;
-    font-size: 15px;
+    padding: 12px 24px;
+    border-radius: 8px;
     font-weight: 500;
+    font-size: 16px;
     border: none;
-    border-radius: 4px;
     cursor: pointer;
     transition: all 0.2s ease;
     
     .btn-icon {
       margin-right: 8px;
-      font-size: 16px;
+      font-size: 18px;
     }
     
     &:hover:not(:disabled) {
       transform: translateY(-1px);
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 4px 8px var(--card-shadow);
     }
     
     &:active:not(:disabled) {
@@ -112,89 +321,75 @@ textarea.form-control {
     }
   }
   
-  .btn-preview {
-    background-color: #f5f5f5;
-    color: #455a64;
-    border: 1px solid #dde2e5;
+  .btn-preview, .btn-edit {
+    background-color: var(--button-secondary-bg);
+    color: var(--button-secondary-text);
+    border: 1px solid var(--border-color);
     
     &:hover:not(:disabled) {
-      background-color: #e0e0e0;
-    }
-    
-    &:active:not(:disabled) {
-      background-color: #d5d5d5;
-    }
-  }
-  
-  .btn-edit {
-    background-color: #f5f5f5;
-    color: #455a64;
-    border: 1px solid #dde2e5;
-    
-    &:hover:not(:disabled) {
-      background-color: #e0e0e0;
-    }
-    
-    &:active:not(:disabled) {
-      background-color: #d5d5d5;
+      background-color: var(--background-secondary);
     }
   }
   
   .btn-submit {
-    background-color: #2196f3;
-    color: white;
+    background-color: var(--button-bg);
+    color: var(--button-text);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 14px;
     
     &:hover:not(:disabled) {
-      background-color: #1976d2;
-    }
-    
-    &:active:not(:disabled) {
-      background-color: #0d5aa7;
+      background-color: var(--button-hover);
     }
     
     &:disabled {
-      background-color: #bbdefb;
-      color: white;
+      background-color: var(--text-muted);
+      color: var(--background-color);
     }
   }
 }
 
 /* Accessibility Enhancements */
 .error-message {
-  color: #d32f2f;
-  margin-top: 5px;
-  font-size: 0.875rem;
-  font-weight: 500;
+  background-color: var(--error-bg);
+  color: var(--error-color);
+  border-left: 4px solid var(--error-color);
+  padding: 12px 15px;
+  margin-bottom: 20px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
   
-  [role="alert"] {
-    border-left: 3px solid #d32f2f;
-    padding-left: 8px;
+  &:before {
+    content: '⚠️';
+    margin-right: 10px;
+    font-size: 18px;
+  }
+  
+  &.input-error {
+    background-color: transparent;
+    border-left: none;
+    padding: 5px 0 0;
+    font-size: 12px;
+    margin-top: 5px;
   }
 }
 
 /* Enhanced Focus States */
 .option-card .option-checkbox:focus + .option-label {
-  outline: 2px solid #1a7ba4;
+  outline: 2px solid var(--accent-color);
   outline-offset: 2px;
 }
 
 .radio-option .radio-input:focus + .radio-label {
-  outline: 2px solid #1a7ba4;
+  outline: 2px solid var(--accent-color);
   outline-offset: 2px;
 }
 
 /* Visual cues for required fields */
 .form-label::after {
   content: " *";
-  color: #d32f2f;
-}
-
-/* Status indicator for character count */
-.character-count {
-  &.limit-reached {
-    color: #d32f2f;
-    font-weight: bold;
-  }
+  color: var(--error-color);
 }
 
 /* Focus visible indicators */
@@ -208,7 +403,7 @@ textarea.form-control {
   }
   
   :focus-visible {
-    outline: 2px solid #1a7ba4;
+    outline: 2px solid var(--accent-color);
     outline-offset: 2px;
   }
 }
@@ -217,8 +412,8 @@ textarea.form-control {
 button:disabled {
   opacity: 0.7;
   cursor: not-allowed;
-  background-color: #cccccc;
-  color: #666666;
+  background-color: var(--text-muted);
+  color: var(--background-color);
 }
 
 /* High contrast mode support */
@@ -235,5 +430,5 @@ button:disabled {
 /* Enhanced hover states for interactive elements */
 .btn:hover:not(:disabled) {
   transform: translateY(-1px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px var(--card-shadow);
 }

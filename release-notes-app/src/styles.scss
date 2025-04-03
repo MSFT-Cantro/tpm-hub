@@ -1,1 +1,101 @@
 /* You can add global styles to this file, and also import other style files */
+
+/* Light and Dark Theme Support - CSS Variables */
+:root {
+  /* Light Theme Variables (Default) */
+  --background-color: #ffffff;
+  --background-secondary: #f8f9fa;
+  --text-color: #333333;
+  --text-secondary: #455a64;
+  --text-muted: #666666;
+  --border-color: #dde2e5;
+  --input-background: #f9fcff;
+  --accent-color: #1a7ba4;
+  --accent-light: rgba(26, 123, 164, 0.12);
+  --accent-hover: #156b8e;
+  --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --terminal-bg: #0a2533;
+  --terminal-text: #e6f4ff;
+  --error-color: #d32f2f;
+  --error-bg: rgba(234, 67, 53, 0.1);
+  --success-color: #388e3c;
+  --gradient-color: linear-gradient(to right, #1a7ba4, #7aa935);
+  --button-bg: #1a7ba4;
+  --button-text: #ffffff;
+  --button-hover: #156b8e;
+  --button-secondary-bg: #f5f5f5;
+  --button-secondary-text: #455a64;
+}
+
+/* Dark Theme Variables */
+.dark-theme,
+[data-theme="dark"] {
+  --background-color: #121212;
+  --background-secondary: #1e1e1e;
+  --text-color: #e0e0e0;
+  --text-secondary: #b0bec5;
+  --text-muted: #9e9e9e;
+  --border-color: #333333;
+  --input-background: #252525;
+  --accent-color: #4fc3f7;
+  --accent-light: rgba(79, 195, 247, 0.12);
+  --accent-hover: #29b6f6;
+  --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  --terminal-bg: #1a1a1a;
+  --terminal-text: #e6f4ff;
+  --error-color: #f44336;
+  --error-bg: rgba(244, 67, 54, 0.1);
+  --success-color: #4caf50;
+  --gradient-color: linear-gradient(to right, #4fc3f7, #81c784);
+  --button-bg: #4fc3f7;
+  --button-text: #121212;
+  --button-hover: #29b6f6;
+  --button-secondary-bg: #333333;
+  --button-secondary-text: #e0e0e0;
+}
+
+/* Base styles */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: var(--text-color);
+  background-color: var(--background-secondary);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Screen reader only class */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Global accessibility focus styles */
+*:focus {
+  outline: 2px solid var(--accent-color);
+  outline-offset: 2px;
+}
+
+/* Support for users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* High contrast mode overrides */
+@media (forced-colors: active) {
+  button, a {
+    border: 1px solid;
+  }
+}

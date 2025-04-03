@@ -20,14 +20,15 @@
 }
 
 .modal-dialog {
-  background: white;
+  background-color: var(--card-bg);
   width: 100%;
   max-width: 700px;
   border-radius: 8px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--card-shadow);
+  border: 1px solid var(--border-color);
   transform: translateY(-20px);
   opacity: 0;
-  transition: transform 0.3s ease, opacity 0.3s ease;
+  transition: transform 0.3s ease, opacity 0.3s ease, background-color 0.3s ease;
   
   &.show {
     transform: translateY(0);
@@ -45,31 +46,33 @@
   align-items: center;
   justify-content: space-between;
   padding: 16px 20px;
-  border-bottom: 1px solid #e9ecef;
+  border-bottom: 1px solid var(--border-color);
   
   .modal-title {
     margin: 0;
     font-size: 18px;
     font-weight: 600;
-    color: #2c3e50;
+    color: var(--text-color);
   }
   
   .close-button {
     background: transparent;
     border: none;
-    color: #6c757d;
+    color: var(--text-secondary);
     font-size: 24px;
     line-height: 1;
     padding: 0;
     cursor: pointer;
+    transition: color 0.2s ease;
     
     &:hover {
-      color: #343a40;
+      color: var(--text-color);
     }
     
     &:focus {
-      outline: none;
-      color: #343a40;
+      outline: 2px solid var(--accent-color);
+      outline-offset: 2px;
+      color: var(--text-color);
     }
   }
 }
@@ -78,6 +81,7 @@
   padding: 20px;
   max-height: calc(100vh - 200px);
   overflow-y: auto;
+  color: var(--text-color);
 }
 
 // Add to global styles or ensure it's imported
