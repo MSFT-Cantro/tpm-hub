@@ -1,26 +1,64 @@
+/* Theme variables */
+:root {
+  /* Light theme (default) */
+  --bg-primary: #f5f7f9;
+  --bg-secondary: #ffffff;
+  --text-primary: #333333;
+  --text-secondary: #666666;
+  --accent-primary: #1a7ba4;
+  --accent-primary-rgb: 26, 123, 164;
+  --accent-secondary: #7aa935;
+  --accent-secondary-rgb: 122, 169, 53;
+  --border-color: #dde2e5;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  --card-bg: #ffffff;
+  --input-bg: #f9fcff;
+  --header-bg: #ffffff;
+  --sidebar-bg: #f0f2f5;
+}
+
+/* Dark theme variables */
+[data-theme='dark'] {
+  --bg-primary: #121212;
+  --bg-secondary: #1e1e1e;
+  --text-primary: #e4e4e4;
+  --text-secondary: #a0a0a0;
+  --accent-primary: #4fa3c6;
+  --accent-primary-rgb: 79, 163, 198;
+  --accent-secondary: #8bc34a;
+  --accent-secondary-rgb: 139, 195, 74;
+  --border-color: #383838;
+  --shadow-color: rgba(0, 0, 0, 0.3);
+  --card-bg: #2d2d2d;
+  --input-bg: #333333;
+  --header-bg: #252525;
+  --sidebar-bg: #1c1c1c;
+}
+
 /* Global styles */
 body {
   margin: 0;
   padding: 0;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  color: #333;
-  background-color: #f5f7f9;
+  color: var(--text-primary);
+  background-color: var(--bg-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .app-placeholder {
   padding: 2rem;
-  background: #fff;
+  background: var(--card-bg);
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px var(--shadow-color);
   text-align: center;
 
   h2 {
-    color: #1976d2;
+    color: var(--accent-primary);
     margin-bottom: 1rem;
   }
 
   p {
-    color: #666;
+    color: var(--text-secondary);
     font-size: 1.1rem;
   }
 }
@@ -40,7 +78,7 @@ body {
 
 /* Global accessibility focus styles */
 *:focus {
-  outline: 2px solid #1a7ba4;
+  outline: 2px solid var(--accent-primary);
   outline-offset: 2px;
 }
 

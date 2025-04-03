@@ -1,0 +1,29 @@
+.theme-toggle-button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  border-radius: 50%;
+  transition: background-color 0.3s ease;
+  
+  &:hover {
+    background-color: var(--bg-secondary);
+  }
+  
+  &:focus {
+    outline: 2px solid var(--accent-primary);
+    outline-offset: 2px;
+  }
+}
+
+.theme-icon {
+  font-size: 20px;
+  transition: transform 0.3s ease;
+  
+  &:hover {
+    transform: rotate(15deg);
+  }
+}

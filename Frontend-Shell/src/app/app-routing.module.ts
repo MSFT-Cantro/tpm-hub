@@ -5,21 +5,36 @@ import { loadRemoteModule, remotes } from '../utils/federation.utils';
 // Create a fallback component for when modules fail to load
 @Component({
   template: `
-    <div style="padding: 20px; border: 2px solid #d32f2f; margin: 20px; background: #ffebee;">
-      <h2>Module Loading Error</h2>
-      <p>There was an error loading the requested module.</p>
-      <p><strong>Error:</strong> {{error}}</p>
-      <h3>Troubleshooting Steps:</h3>
-      <ol>
+    <div style="padding: 20px; border: 2px solid #d32f2f; margin: 20px; background: var(--bg-secondary);">
+      <h2 style="color: var(--text-primary);">Module Loading Error</h2>
+      <p style="color: var(--text-secondary);">There was an error loading the requested module.</p>
+      <p style="color: var(--text-secondary);"><strong>Error:</strong> {{error}}</p>
+      <h3 style="color: var(--text-primary);">Troubleshooting Steps:</h3>
+      <ol style="color: var(--text-secondary);">
         <li>Make sure all applications are running (sos-update-app on port 4201, deployment-readiness-app on port 4202)</li>
         <li>Check the console for detailed error messages</li>
         <li>Refresh the page to try again</li>
       </ol>
-      <button (click)="refresh()" style="padding: 8px 16px; background: #2196f3; color: white; border: none; cursor: pointer;">
+      <button (click)="refresh()" class="error-refresh-btn">
         Refresh Page
       </button>
     </div>
-  `
+  `,
+  styles: [`
+    .error-refresh-btn {
+      padding: 8px 16px;
+      background: var(--accent-primary);
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    
+    .error-refresh-btn:hover {
+      background: var(--accent-secondary);
+    }
+  `]
 })
 export class ModuleErrorComponent {
   error = localStorage.getItem('moduleLoadError') || 'Unknown error';
@@ -33,45 +48,65 @@ export class ModuleErrorComponent {
 @Component({
   template: `
     <div style="padding: 40px; text-align: center; margin: 20px;">
-      <h1 style="font-size: 2.5rem; margin-bottom: 20px; color: #333;">Welcome to the TPM Hub</h1>
+      <h1 style="font-size: 2.5rem; margin-bottom: 20px; color: var(--text-primary);">Welcome to the TPM Hub 🤹</h1>
       <div style="max-width: 800px; margin: 0 auto; line-height: 1.6;">
-        <p style="font-size: 1.2rem; margin-bottom: 30px;">Your central platform for managing product updates and deployment readiness.</p>
+        <p style="font-size: 1.2rem; margin-bottom: 30px; color: var(--text-secondary);">Your central platform for managing product updates and deployment readiness.</p>
         <div style="display: flex; justify-content: center; gap: 20px; margin-top: 40px;">
           <a routerLink="/sos-update" style="text-decoration: none;">
-            <div style="padding: 20px; border-radius: 8px; background: #f5f5f5; min-width: 200px; transition: all 0.3s;">
-              <h3 style="margin-bottom: 10px; color: #333;">SoS Updates</h3>
-              <p>Create and manage status updates for your stakeholders</p>
+            <div class="welcome-card" style="padding: 20px; border-radius: 8px; background: var(--card-bg); min-width: 200px; transition: all 0.3s; border: 1px solid var(--border-color); box-shadow: 0 4px 8px var(--shadow-color);">
+              <h3 style="margin-bottom: 10px; color: var(--accent-primary);">SoS Updates</h3>
+              <p style="color: var(--text-secondary);">Create and manage SoS updates for your stakeholders</p>
             </div>
           </a>
           <a routerLink="/deployment-readiness" style="text-decoration: none;">
-            <div style="padding: 20px; border-radius: 8px; background: #f5f5f5; min-width: 200px; transition: all 0.3s;">
-              <h3 style="margin-bottom: 10px; color: #333;">Deployment Readiness</h3>
-              <p>Track and manage release readiness for your products</p>
+            <div class="welcome-card" style="padding: 20px; border-radius: 8px; background: var(--card-bg); min-width: 200px; transition: all 0.3s; border: 1px solid var(--border-color); box-shadow: 0 4px 8px var(--shadow-color);">
+              <h3 style="margin-bottom: 10px; color: var(--accent-primary);">Deployment Readiness</h3>
+              <p style="color: var(--text-secondary);">Track and manage release readiness for your products</p>
             </div>
           </a>
         </div>
       </div>
     </div>
-  `
+  `,
+  styles: [`
+    .welcome-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px var(--shadow-color);
+      border-color: var(--accent-primary);
+    }
+  `]
 })
 export class WelcomeComponent {}
 
 // Debug component for direct rendering
 @Component({
   template: `
-    <div style="padding: 20px; border: 2px solid #2196f3; margin: 20px; background: #e3f2fd;">
-      <h2>Debug Component</h2>
-      <p>This is a direct component in the shell application.</p>
-      <p>If you can see this, the shell application is working correctly.</p>
-      <p>Timestamp: {{timestamp}}</p>
-      <h3>Application Status:</h3>
-      <ul>
-        <li>Frontend Shell: <span style="color: green;">✓ Running</span></li>
-        <li>SoS Update App: <button (click)="checkApp('http://localhost:4201')" style="background: none; border: none; color: blue; text-decoration: underline; cursor: pointer;">Check</button> <span id="sos-check">Unknown</span></li>
-        <li>Deployment Readiness App: <button (click)="checkApp('http://localhost:4202')" style="background: none; border: none; color: blue; text-decoration: underline; cursor: pointer;">Check</button> <span id="deployment-check">Unknown</span></li>
+    <div style="padding: 20px; border: 2px solid var(--accent-primary); margin: 20px; background: var(--bg-secondary);">
+      <h2 style="color: var(--text-primary);">Debug Component</h2>
+      <p style="color: var(--text-secondary);">This is a direct component in the shell application.</p>
+      <p style="color: var(--text-secondary);">If you can see this, the shell application is working correctly.</p>
+      <p style="color: var(--text-secondary);">Timestamp: {{timestamp}}</p>
+      <h3 style="color: var(--text-primary);">Application Status:</h3>
+      <ul style="color: var(--text-secondary);">
+        <li>Frontend Shell: <span style="color: var(--accent-secondary);">✓ Running</span></li>
+        <li>SoS Update App: <button (click)="checkApp('http://localhost:4201')" class="debug-check-btn">Check</button> <span id="sos-check">Unknown</span></li>
+        <li>Deployment Readiness App: <button (click)="checkApp('http://localhost:4202')" class="debug-check-btn">Check</button> <span id="deployment-check">Unknown</span></li>
       </ul>
     </div>
-  `
+  `,
+  styles: [`
+    .debug-check-btn {
+      background: none; 
+      border: none; 
+      color: var(--accent-primary); 
+      text-decoration: underline; 
+      cursor: pointer;
+    }
+    
+    .debug-check-btn:hover {
+      color: var(--accent-secondary);
+    }
+  `]
 })
 export class DebugComponent {
   timestamp = new Date().toISOString();

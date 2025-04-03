@@ -3,16 +3,25 @@
   <a class="skip-link" href="#main-content">Skip to main content</a>
   <aside class="side-nav-container">
     <div class="logo-container">
-      <h1>{{ title }}</h1>
+      <a [routerLink]="['/']" class="home-link" aria-label="Go to TPM Hub home page">
+        <h1>{{ title }} 🤹</h1>
+      </a>
     </div>
     <app-navigation></app-navigation>
     
-    <!-- Debug Button -->
-    <div class="debug-button-container">
-      <button (click)="toggleDebugPanel()" class="debug-toggle-button" aria-label="Toggle Debug Panel">
-        <span class="debug-icon">🛠️</span>
-        <span>Debug</span>
-      </button>
+    <div class="utility-buttons">
+      <!-- Theme Toggle Button -->
+      <div class="theme-toggle-container">
+        <app-theme-toggle></app-theme-toggle>
+      </div>
+      
+      <!-- Debug Button -->
+      <div class="debug-button-container">
+        <button (click)="toggleDebugPanel()" class="debug-toggle-button" aria-label="Toggle Debug Panel">
+          <span class="debug-icon">🛠️</span>
+          <span>Debug</span>
+        </button>
+      </div>
     </div>
   </aside>
   <div class="main-wrapper">
@@ -24,7 +33,7 @@
         <p>Timestamp: {{currentTime}}</p>
         <h3>Micro Frontend Status</h3>
         <ul>
-          <li>Status Update App (Port 4201): <span id="status-mfe">Checking...</span></li>
+          <li>SoS Update App (Port 4201): <span id="status-mfe">Checking...</span></li>
           <li>Release Notes App (Port 4202): <span id="release-mfe">Checking...</span></li>
         </ul>
         <button (click)="checkMicroFrontends()" class="refresh-button">

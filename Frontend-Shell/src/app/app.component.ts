@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { ThemeService } from './services/theme.service';
 
 @Component({
   selector: 'app-root',
@@ -11,13 +12,18 @@ export class AppComponent implements OnInit {
   currentTime = new Date().toLocaleString();
   debugPanelVisible = false;
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private themeService: ThemeService
+  ) {}
 
   ngOnInit() {
     // Update time every second
     setInterval(() => {
       this.currentTime = new Date().toLocaleString();
     }, 1000);
+    
+    // The theme service is automatically initialized when injected
   }
 
   toggleDebugPanel() {
@@ -28,7 +34,7 @@ export class AppComponent implements OnInit {
   }
 
   checkMicroFrontends() {
-    // Check status update app
+    // Check SoS update app
     this.checkEndpoint('http://localhost:4201', 'status-mfe');
     
     // Check release notes app

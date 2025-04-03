@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Emoji to Favicon</title>
+    <style>
+        body { margin: 0; padding: 0; display: flex; justify-content: center; align-items: center; height: 100vh; }
+        #emoji { font-size: 128px; }
+    </style>
+    <script>
+        window.onload = function() {
+            const emoji = document.getElementById('emoji');
+            const canvas = document.createElement('canvas');
+            canvas.width = 128;
+            canvas.height = 128;
+            const ctx = canvas.getContext('2d');
+            ctx.font = '120px Arial';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('🤹', canvas.width/2, canvas.height/2);
+            
+            const link = document.getElementById('download');
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        };
+    </script>
+</head>
+<body>
+    <div id="emoji">🤹</div>
+    <a id="download" download="favicon.png" style="display: none;">Download</a>
+</body>
+</html>
