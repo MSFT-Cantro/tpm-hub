@@ -1,0 +1,190 @@
+<div class="release-notes-container">
+  <h2 class="form-title" id="deployment-readiness-title">UNSC Deployment Intelligence Terminal</h2>
+  
+  <div class="error-message" *ngIf="error" role="alert">
+    <span class="error-icon" aria-hidden="true">⚠️</span> 
+    {{ error }}
+  </div>
+  
+  <form [formGroup]="releaseForm" (ngSubmit)="fetchQuery()" class="release-form" aria-labelledby="deployment-readiness-title">
+    
+    <!-- Access Token Input -->
+    <div class="form-group">
+      <label for="accessToken" class="form-label" id="accessToken-label">
+        <span class="label-icon" aria-hidden="true">🔑</span>
+        ACCESS TOKEN
+      </label>
+      <input 
+        id="accessToken" 
+        type="password" 
+        formControlName="accessToken" 
+        autocomplete="off"
+        placeholder="Enter your Azure DevOps Personal Access Token"
+        class="form-control"
+        [class.is-invalid]="releaseForm.get('accessToken')?.invalid && releaseForm.get('accessToken')?.touched"
+        aria-required="true"
+        aria-labelledby="accessToken-label"
+        aria-invalid="releaseForm.get('accessToken')?.invalid && releaseForm.get('accessToken')?.touched"
+      />
+      <div class="error-message input-error" *ngIf="releaseForm.get('accessToken')?.invalid && releaseForm.get('accessToken')?.touched" role="alert">
+        Access token is required
+      </div>
+    </div>
+    
+    <!-- Query ID Input -->
+    <div class="form-group">
+      <label for="queryId" class="form-label" id="queryId-label">
+        <span class="label-icon" aria-hidden="true">🔎</span>
+        QUERY ID
+      </label>
+      <input 
+        id="queryId" 
+        type="text" 
+        formControlName="queryId" 
+        placeholder="Enter query ID or full URL"
+        class="form-control"
+        [class.is-invalid]="releaseForm.get('queryId')?.invalid && releaseForm.get('queryId')?.touched"
+        aria-required="true"
+        aria-labelledby="queryId-label"
+        aria-invalid="releaseForm.get('queryId')?.invalid && releaseForm.get('queryId')?.touched"
+      />
+      <div class="error-message input-error" *ngIf="releaseForm.get('queryId')?.invalid && releaseForm.get('queryId')?.touched" role="alert">
+        Query ID is required
+      </div>
+    </div>
+    
+    <!-- Filter Type Options -->
+    <fieldset class="form-section">
+      <legend class="options-title" id="filter-type-title">
+        <span class="label-icon" aria-hidden="true">🔄</span>
+        FILTER TYPE
+      </legend>
+      <div class="radio-group" role="radiogroup" aria-labelledby="filter-type-title">
+        <div class="radio-option">
+          <input 
+            type="radio"
+            id="communitySift" 
+            formControlName="filterType" 
+            value="CommunitySift/Morpheus"
+            (change)="onFilterTypeChange()"
+            class="radio-input"
+          />
+          <label for="communitySift" class="radio-label">
+            <span class="radio-icon" aria-hidden="true">🛡️</span>
+            <span class="radio-text">CommunitySift/Morpheus</span>
+          </label>
+        </div>
+        <div class="radio-option">
+          <input 
+            type="radio"
+            id="pottymouth" 
+            formControlName="filterType" 
+            value="Pottymouth" 
+            (change)="onFilterTypeChange()"
+            class="radio-input" 
+          />
+          <label for="pottymouth" class="radio-label">
+            <span class="radio-icon" aria-hidden="true">💬</span>
+            <span class="radio-text">Pottymouth</span>
+          </label>
+        </div>
+      </div>
+    </fieldset>
+    
+    <!-- Pottymouth-specific options -->
+    <div class="form-section pottymouth-options" *ngIf="releaseForm.get('filterType')?.value === 'Pottymouth'" role="region" aria-labelledby="pottymouth-options">
+      <h3 class="sr-only" id="pottymouth-options">Pottymouth Options</h3>
+      
+      <!-- Data Centers -->
+      <fieldset class="form-group">
+        <legend class="options-title" id="data-centers-title">
+          <span class="label-icon" aria-hidden="true">🌐</span>
+          DATA CENTERS
+        </legend>
+        <div class="options-grid" role="group" aria-labelledby="data-centers-title">
+          <div class="option-card" *ngFor="let dc of ['US-East (LIVE)', 'US-West (UW2P)', 'EU-West (EUON)']">
+            <input 
+              type="checkbox"
+              [id]="getSafeId(dc)" 
+              [checked]="getDataCenterStatus(dc)" 
+              (change)="toggleDataCenter(dc)"
+              class="option-checkbox"
+              [attr.aria-label]="dc + ' data center'"
+            />
+            <label [for]="getSafeId(dc)" class="option-label">
+              <span class="option-icon" aria-hidden="true">{{ getDataCenterIcon(dc) }}</span>
+              <span class="option-name">{{ dc }}</span>
+            </label>
+          </div>
+        </div>
+      </fieldset>
+      
+      <!-- Release Engineer -->
+      <div class="form-group">
+        <label for="releaseEngineer" class="form-label" id="engineer-label">
+          <span class="label-icon" aria-hidden="true">👩‍💻</span>
+          RELEASE ENGINEER
+        </label>
+        <input 
+          id="releaseEngineer" 
+          type="text" 
+          formControlName="releaseEngineer" 
+          placeholder="Enter release engineer name"
+          class="form-control"
+          aria-labelledby="engineer-label"
+        />
+      </div>
+      
+      <!-- Release Version -->
+      <div class="form-group">
+        <label for="releaseVersion" class="form-label" id="version-label">
+          <span class="label-icon" aria-hidden="true">📊</span>
+          RELEASE VERSION
+        </label>
+        <input 
+          id="releaseVersion" 
+          type="text" 
+          formControlName="releaseVersion" 
+          placeholder="Enter release version"
+          class="form-control"
+          aria-labelledby="version-label"
+        />
+      </div>
+    </div>
+    
+    <!-- Results Text Area -->
+    <div class="form-group results-area">
+      <label class="form-label" for="intelligence-data" id="data-label">
+        <span class="label-icon" aria-hidden="true">📋</span>
+        INTELLIGENCE DATA
+      </label>
+      <textarea 
+        id="intelligence-data"
+        [value]="resultText" 
+        readonly
+        placeholder="Deployment readiness data will appear here after retrieval"
+        rows="10"
+        class="form-control"
+        aria-labelledby="data-label"
+        aria-live="polite"
+      ></textarea>
+    </div>
+    
+    <!-- Messaging Platform Selection -->
+    <fieldset class="form-section">
+      <legend class="options-title" id="platform-title">
+        <span class="label-icon" aria-hidden="true">📢</span>
+        MESSAGING PLATFORM
+      </legend>
+      <div class="radio-group" role="radiogroup" aria-labelledby="platform-title">
+        <div class="radio-option">
+          <input type="radio" id="teams" formControlName="messagingPlatform" value="Teams" class="radio-input" />
+          <label for="teams" class="radio-label">
+            <span class="radio-icon" aria-hidden="true">📮</span>
+            <span class="radio-text">Microsoft Teams</span>
+          </label>
+        </div>
+        <div class="radio-option">
+          <input type="radio" id="slack" formControlName="messagingPlatform" value="Slack" class="radio-input" />
+          <label for="slack" class="radio-label">
+            <span class="radio-icon" aria-hidden="true">💬</span>

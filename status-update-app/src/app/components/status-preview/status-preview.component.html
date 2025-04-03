@@ -1,0 +1,27 @@
+<div class="status-preview">
+  <div class="status-header">
+    <div class="author-info">
+      <span class="author">{{ author }}</span>
+      <span class="timestamp" *ngIf="timestamp">{{ timestamp | date:'medium' }}</span>
+    </div>
+    <div class="status-indicators" *ngIf="important || urgent || completed || inProgress">
+      <span class="status-badge" *ngIf="important" title="Important">
+        <span class="icon" aria-hidden="true">🔔</span>
+        <span class="sr-only">Important</span>
+      </span>
+      <span class="status-badge" *ngIf="urgent" title="Urgent">
+        <span class="icon" aria-hidden="true">⚠️</span>
+        <span class="sr-only">Urgent</span>
+      </span>
+      <span class="status-badge" *ngIf="completed" title="Completed">
+        <span class="icon" aria-hidden="true">✅</span>
+        <span class="sr-only">Completed</span>
+      </span>
+      <span class="status-badge" *ngIf="inProgress" title="In Progress">
+        <span class="icon" aria-hidden="true">⏳</span>
+        <span class="sr-only">In Progress</span>
+      </span>
+    </div>
+  </div>
+  <div class="status-message">{{ message }}</div>
+</div>

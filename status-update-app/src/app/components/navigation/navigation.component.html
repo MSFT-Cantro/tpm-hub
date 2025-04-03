@@ -1,0 +1,16 @@
+<nav class="main-nav" role="navigation" aria-label="Main Navigation">
+  <ul>
+    <li>
+      <a routerLink="/status-form" routerLinkActive="active" aria-current="page">
+        <span class="icon" aria-hidden="true">📝</span>
+        <span class="text">Status Update</span>
+      </a>
+    </li>
+    <li>
+      <a routerLink="/status-history" routerLinkActive="active" [attr.aria-current]="router.isActive('/status-history', false) ? 'page' : null">
+        <span class="icon" aria-hidden="true">📋</span>
+        <span class="text">Status History</span>
+      </a>
+    </li>
+  </ul>
+</nav>

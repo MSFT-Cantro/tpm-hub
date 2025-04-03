@@ -1,0 +1,155 @@
+<div class="status-form-container">
+  <div class="form-content" *ngIf="!previewMode">
+    <h2 class="form-title" id="status-form-title">Create a SoS Update</h2>
+    <form [formGroup]="statusForm" aria-labelledby="status-form-title">
+      <div class="form-group">
+        <label for="author" class="form-label" id="author-label">
+          <span class="label-icon" aria-hidden="true">👤</span>
+          Your Name
+        </label>
+        <input 
+          type="text" 
+          id="author" 
+          formControlName="author" 
+          placeholder="Enter your name"
+          class="form-control"
+          [class.is-invalid]="statusForm.get('author')?.invalid && statusForm.get('author')?.touched"
+          aria-required="true"
+          aria-labelledby="author-label"
+          aria-invalid="statusForm.get('author')?.invalid && statusForm.get('author')?.touched"
+          aria-describedby="author-error">
+        <div class="error-message" *ngIf="statusForm.get('author')?.invalid && statusForm.get('author')?.touched" id="author-error" role="alert">
+          Name is required
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label for="message" class="form-label" id="message-label">
+          <span class="label-icon" aria-hidden="true">✏️</span>
+          Status Message
+        </label>
+        <textarea 
+          id="message" 
+          formControlName="message" 
+          placeholder="What's happening?"
+          rows="4"
+          class="form-control"
+          [class.is-invalid]="statusForm.get('message')?.invalid && statusForm.get('message')?.touched"
+          aria-required="true"
+          aria-labelledby="message-label"
+          aria-invalid="statusForm.get('message')?.invalid && statusForm.get('message')?.touched"
+          aria-describedby="character-count message-error"></textarea>
+        <div class="character-count" [class.limit-reached]="statusForm.get('message')?.value?.length >= 280" id="character-count" aria-live="polite">
+          {{ statusForm.get('message')?.value?.length || 0 }}/280
+        </div>
+        <div class="error-message" *ngIf="statusForm.get('message')?.invalid && statusForm.get('message')?.touched" id="message-error" role="alert">
+          <span *ngIf="statusForm.get('message')?.errors?.['required']">Status message is required</span>
+          <span *ngIf="statusForm.get('message')?.errors?.['maxlength']">Status cannot exceed 280 characters</span>
+        </div>
+      </div>
+      
+      <fieldset class="status-options">
+        <legend class="options-title">Status Options</legend>
+        <div class="options-grid" role="group" aria-labelledby="status-options-title">
+          <div class="option-card">
+            <input type="checkbox" id="important" class="option-checkbox" formControlName="important">
+            <label for="important" class="option-label">
+              <span class="option-icon" aria-hidden="true">🔔</span>
+              <span class="option-name">Important</span>
+            </label>
+          </div>
+          <div class="option-card">
+            <input type="checkbox" id="urgent" class="option-checkbox" formControlName="urgent">
+            <label for="urgent" class="option-label">
+              <span class="option-icon" aria-hidden="true">⚠️</span>
+              <span class="option-name">Urgent</span>
+            </label>
+          </div>
+          <div class="option-card">
+            <input type="checkbox" id="completed" class="option-checkbox" formControlName="completed">
+            <label for="completed" class="option-label">
+              <span class="option-icon" aria-hidden="true">✅</span>
+              <span class="option-name">Completed</span>
+            </label>
+          </div>
+          <div class="option-card">
+            <input type="checkbox" id="inProgress" class="option-checkbox" formControlName="inProgress">
+            <label for="inProgress" class="option-label">
+              <span class="option-icon" aria-hidden="true">⏳</span>
+              <span class="option-name">In Progress</span>
+            </label>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset class="visibility-options">
+        <legend class="options-title">Visibility</legend>
+        <div class="radio-group" role="radiogroup" aria-labelledby="visibility-options-title">
+          <div class="radio-option">
+            <input type="radio" id="public" value="public" formControlName="visibility" class="radio-input">
+            <label for="public" class="radio-label">
+              <span class="radio-icon" aria-hidden="true">🌎</span>
+              <span class="radio-text">Public</span>
+            </label>
+          </div>
+          <div class="radio-option">
+            <input type="radio" id="team" value="team" formControlName="visibility" class="radio-input">
+            <label for="team" class="radio-label">
+              <span class="radio-icon" aria-hidden="true">👥</span>
+              <span class="radio-text">Team Only</span>
+            </label>
+          </div>
+          <div class="radio-option">
+            <input type="radio" id="private" value="private" formControlName="visibility" class="radio-input">
+            <label for="private" class="radio-label">
+              <span class="radio-icon" aria-hidden="true">🔒</span>
+              <span class="radio-text">Private</span>
+            </label>
+          </div>
+        </div>
+      </fieldset>
+      
+      <div class="form-actions">
+        <button 
+          type="button" 
+          class="btn btn-preview"
+          (click)="togglePreview()"
+          aria-label="Preview SoS update">
+          <span class="btn-icon" aria-hidden="true">👁️</span>
+          Preview
+        </button>
+        <button 
+          type="button" 
+          class="btn btn-submit"
+          (click)="submitStatus()"
+          [disabled]="statusForm.invalid"
+          [attr.aria-disabled]="statusForm.invalid"
+          aria-label="Post SoS update">
+          <span class="btn-icon" aria-hidden="true">📤</span>
+          Post SoS Update
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <div class="preview-container" *ngIf="previewMode" aria-live="polite">
+    <h2 class="preview-title" id="preview-title">SoS Update Preview</h2>
+    <app-status-preview
+      [message]="currentStatus"
+      [author]="authorName"
+      [timestamp]="previewTimestamp"
+      aria-labelledby="preview-title">
+    </app-status-preview>
+    
+    <div class="preview-actions">
+      <button type="button" class="btn btn-edit" (click)="cancelPreview()" aria-label="Edit SoS update">
+        <span class="btn-icon" aria-hidden="true">✏️</span>
+        Edit
+      </button>
+      <button type="button" class="btn btn-submit" (click)="submitStatus()" aria-label="Post SoS update">
+        <span class="btn-icon" aria-hidden="true">📤</span>
+        Post SoS Update
+      </button>
+    </div>
+  </div>
+</div>

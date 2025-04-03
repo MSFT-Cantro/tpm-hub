@@ -1,0 +1,14 @@
+<div class="app-container">
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <aside class="side-nav-container">
+    <div class="logo-container">
+      <h1>{{ title }}</h1>
+    </div>
+    <app-navigation></app-navigation>
+  </aside>
+  <div class="main-wrapper">
+    <main id="main-content" class="main-content" role="main" tabindex="-1">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+</div>

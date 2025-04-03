@@ -1,0 +1,15 @@
+<div class="modal-backdrop" [class.show]="isOpen" (click)="closeOnBackdrop ? close() : null">
+  <div class="modal-dialog" [class.show]="isOpen" (click)="$event.stopPropagation()">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title">{{ title }}</h2>
+        <button type="button" class="close-button" aria-label="Close" (click)="close()">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <ng-content></ng-content>
+      </div>
+    </div>
+  </div>
+</div>

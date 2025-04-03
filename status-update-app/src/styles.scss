@@ -1,0 +1,103 @@
+/* You can add global styles to this file, and also import other style files */
+
+/* Base styles */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+  background-color: #f5f7f9;
+}
+
+/* Screen reader only class - visually hidden but available to screen readers */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Global accessibility focus styles */
+*:focus {
+  outline: 2px solid #1a7ba4;
+  outline-offset: 2px;
+}
+
+/* Support for users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* High contrast mode overrides */
+@media (forced-colors: active) {
+  button, a {
+    border: 1px solid;
+  }
+}
+
+/* Improved keyboard navigation */
+[tabindex]:not([tabindex="-1"]):focus {
+  box-shadow: 0 0 0 3px rgba(26, 123, 164, 0.5);
+}
+
+/* Color contrast helper classes */
+.text-contrast-high {
+  color: #333333;
+}
+
+.bg-contrast-high {
+  background-color: #f8f9fa;
+}
+
+/* Error states for accessibility */
+.error-message {
+  color: #d32f2f;
+  font-weight: 500;
+}
+
+[aria-invalid="true"] {
+  border-color: #d32f2f;
+}
+
+/* Global button styles */
+button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #fff;
+  background-color: #4285f4;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+button:hover {
+  background-color: #3367d6;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+button:disabled {
+  background-color: #cccccc;
+  color: #666666;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+button:focus {
+  outline: 2px solid #1a7ba4;
+  outline-offset: 2px;
+}

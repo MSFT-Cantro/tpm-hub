@@ -1,0 +1,76 @@
+<div class="status-history-container">
+  <div class="status-header">
+    <h2>Status Updates</h2>
+    <button class="new-status-btn" (click)="openStatusFormModal()">
+      <span class="btn-icon">➕</span>
+      New Status Update
+    </button>
+  </div>
+  
+  <fieldset class="status-options">
+    <legend class="options-title">Filter by Status</legend>
+    <div class="options-grid" role="group" aria-label="Status filters">
+      <div class="option-card">
+        <input type="checkbox" id="filter-important" class="option-checkbox" [(ngModel)]="filters.important" (change)="onFilterChange()">
+        <label for="filter-important" class="option-label">
+          <span class="option-icon" aria-hidden="true">🔔</span>
+          <span class="option-name">Important</span>
+        </label>
+      </div>
+      <div class="option-card">
+        <input type="checkbox" id="filter-urgent" class="option-checkbox" [(ngModel)]="filters.urgent" (change)="onFilterChange()">
+        <label for="filter-urgent" class="option-label">
+          <span class="option-icon" aria-hidden="true">⚠️</span>
+          <span class="option-name">Urgent</span>
+        </label>
+      </div>
+      <div class="option-card">
+        <input type="checkbox" id="filter-completed" class="option-checkbox" [(ngModel)]="filters.completed" (change)="onFilterChange()">
+        <label for="filter-completed" class="option-label">
+          <span class="option-icon" aria-hidden="true">✅</span>
+          <span class="option-name">Completed</span>
+        </label>
+      </div>
+      <div class="option-card">
+        <input type="checkbox" id="filter-inProgress" class="option-checkbox" [(ngModel)]="filters.inProgress" (change)="onFilterChange()">
+        <label for="filter-inProgress" class="option-label">
+          <span class="option-icon" aria-hidden="true">⏳</span>
+          <span class="option-name">In Progress</span>
+        </label>
+      </div>
+    </div>
+  </fieldset>
+
+  <div class="no-updates" *ngIf="filteredStatusUpdates.length === 0">
+    <p>No status updates found matching the selected filters.</p>
+  </div>
+  
+  <div class="status-list" *ngIf="filteredStatusUpdates.length > 0">
+    <div class="status-item" *ngFor="let status of filteredStatusUpdates">
+      <app-status-preview
+        [message]="status.message"
+        [author]="status.author"
+        [timestamp]="status.timestamp"
+        [important]="status.options?.important ?? false"
+        [urgent]="status.options?.urgent ?? false"
+        [completed]="status.options?.completed ?? false"
+        [inProgress]="status.options?.inProgress ?? false">
+      </app-status-preview>
+      
+      <div class="status-actions">
+        <button class="delete-btn" (click)="deleteStatus(status.id)" aria-label="Delete status">
+          <span class="btn-icon" aria-hidden="true">🗑️</span>
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal for Status Form -->
+<app-modal 
+  [isOpen]="isStatusFormModalOpen" 
+  [title]="'Create New Status Update'"
+  (closed)="onStatusFormModalClosed()">
+  <app-status-form (statusCreated)="onNewStatusSubmitted()"></app-status-form>
+</app-modal>

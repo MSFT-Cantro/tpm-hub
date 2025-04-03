@@ -1,0 +1,66 @@
+.status-preview {
+  padding: 15px;
+  background: white;
+  border-radius: 8px;
+}
+
+.status-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.author-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.author {
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.timestamp {
+  font-size: 0.875rem;
+  color: #666;
+}
+
+.status-indicators {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 8px;
+  border-radius: 4px;
+  background: #f8f9fa;
+  border: 1px solid #dde2e5;
+  
+  .icon {
+    font-size: 16px;
+  }
+}
+
+.status-message {
+  color: #333;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
