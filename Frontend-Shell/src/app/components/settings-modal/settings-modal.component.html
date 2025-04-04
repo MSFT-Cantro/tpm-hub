@@ -4,22 +4,114 @@
       <h2>Settings</h2>
       <button class="modal-close-button" (click)="closeModal()" aria-label="Close settings">×</button>
     </div>
+    
+    <div class="settings-modal-tabs">
+      <button class="tab-button" [class.active]="activeTab === 'settings'" (click)="setActiveTab('settings')">General</button>
+      <button class="tab-button" [class.active]="activeTab === 'logs'" (click)="setActiveTab('logs')">Error Logs</button>
+    </div>
+    
     <div class="settings-modal-body">
-      <div class="settings-section">
-        <h3>Appearance</h3>
-        <div class="settings-row">
-          <span>Theme</span>
-          <app-theme-toggle></app-theme-toggle>
+      <!-- Settings Tab -->
+      <div class="tab-content" [class.visible]="activeTab === 'settings'">
+        <div class="settings-section">
+          <h3>Appearance</h3>
+          <div class="settings-row">
+            <span>Theme</span>
+            <app-theme-toggle></app-theme-toggle>
+          </div>
+        </div>
+        <div class="settings-section">
+          <h3>System</h3>
+          <div class="settings-row">
+            <span>Debug Tools</span>
+            <button class="debug-button" (click)="toggleDebug()">
+              <span class="debug-icon">🛠️</span>
+              <span>Open Debug</span>
+            </button>
+          </div>
         </div>
       </div>
-      <div class="settings-section">
-        <h3>System</h3>
-        <div class="settings-row">
-          <span>Debug Tools</span>
-          <button class="debug-button" (click)="toggleDebug()">
-            <span class="debug-icon">🛠️</span>
-            <span>Open Debug</span>
-          </button>
+      
+      <!-- Error Logs Tab -->
+      <div class="tab-content" [class.visible]="activeTab === 'logs'">
+        <div class="error-logs-container">
+          <div class="error-logs-header">
+            <h3>Application Error Logs</h3>
+            <div class="error-logs-actions">
+              <button class="clear-logs-btn" (click)="clearErrorLogs()" title="Clear all logs">
+                <span>🗑️</span> Clear
+              </button>
+              <button class="download-logs-btn" (click)="downloadErrorLogs()" title="Download logs as JSON">
+                <span>💾</span> Download
+              </button>
+              <button class="test-log-btn" (click)="generateTestLog()" title="Generate test log">
+                <span>🧪</span> Test
+              </button>
+            </div>
+          </div>
+          
+          <div class="error-logs-filters">
+            <span>Filter:</span>
+            <div class="filter-chips">
+              <label class="filter-chip" [class.active]="filters.all">
+                <input type="checkbox" [checked]="filters.all" (change)="toggleAllFilters()">
+                All
+              </label>
+              <label class="filter-chip" [class.active]="filters.federation">
+                <input type="checkbox" [(ngModel)]="filters.federation" (change)="updateFilters()">
+                Federation
+              </label>
+              <label class="filter-chip" [class.active]="filters.angular">
+                <input type="checkbox" [(ngModel)]="filters.angular" (change)="updateFilters()">
+                Angular
+              </label>
+              <label class="filter-chip" [class.active]="filters.javascript">
+                <input type="checkbox" [(ngModel)]="filters.javascript" (change)="updateFilters()">
+                JavaScript
+              </label>
+              <label class="filter-chip" [class.active]="filters.network">
+                <input type="checkbox" [(ngModel)]="filters.network" (change)="updateFilters()">
+                Network
+              </label>
+              <label class="filter-chip" [class.active]="filters.other">
+                <input type="checkbox" [(ngModel)]="filters.other" (change)="updateFilters()">
+                Other
+              </label>
+            </div>
+          </div>
+          
+          <div *ngIf="(filteredLogs$ | async)?.length === 0" class="no-logs-message">
+            <div class="no-logs-content">
+              <span>📋</span>
+              <p>No error logs found</p>
+            </div>
+          </div>
+          
+          <div class="error-logs-list">
+            <div *ngFor="let log of filteredLogs$ | async" class="error-log-item" [ngClass]="'error-type-' + log.type">
+              <div class="error-log-header">
+                <div class="error-log-type">{{ log.type | titlecase }}</div>
+                <div class="error-log-timestamp">{{ log.timestamp | date:'medium' }}</div>
+              </div>
+              <div class="error-log-message">{{ log.message }}</div>
+              
+              <div *ngIf="log.source" class="error-log-source">
+                Source: {{ log.source }}
+                <span *ngIf="log.lineNumber">Line: {{ log.lineNumber }}</span>
+                <span *ngIf="log.columnNumber">Column: {{ log.columnNumber }}</span>
+              </div>
+              
+              <details *ngIf="log.stackTrace" class="error-log-details">
+                <summary>Stack Trace</summary>
+                <pre class="error-log-stacktrace">{{ log.stackTrace }}</pre>
+              </details>
+              
+              <details *ngIf="log.additionalInfo" class="error-log-details">
+                <summary>Additional Info</summary>
+                <pre class="error-log-additional-info">{{ log.additionalInfo | json }}</pre>
+              </details>
+            </div>
+          </div>
         </div>
       </div>
     </div>

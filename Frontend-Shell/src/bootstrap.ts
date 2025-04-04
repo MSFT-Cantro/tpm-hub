@@ -1,78 +1,10 @@
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { AppModule } from './app/app.module';
-import { remotes } from './utils/federation.utils';
 
-// Create a more reliable script loading function with timeout
-const loadRemoteWithTimeout = (remoteEntry: string, timeout = 10000) => {
-  return new Promise<void>((resolve, reject) => {
-    console.log(`Attempting to load remote entry: ${remoteEntry}`);
-    
-    // Create a timeout to prevent hanging if the script fails to load
-    const timeoutId = setTimeout(() => {
-      console.error(`Timeout loading remote entry: ${remoteEntry}`);
-      reject(new Error(`Timeout loading remote entry: ${remoteEntry}`));
-    }, timeout);
-    
-    try {
-      const script = document.createElement('script');
-      script.src = remoteEntry;
-      
-      script.onerror = (error) => {
-        clearTimeout(timeoutId);
-        console.error(`Error loading remote entry ${remoteEntry}:`, error);
-        reject(new Error(`Failed to load remote entry: ${remoteEntry}`));
-      };
-      
-      script.onload = () => {
-        clearTimeout(timeoutId);
-        console.log(`Remote entry loaded successfully: ${remoteEntry}`);
-        
-        // Add a small delay to ensure the module is fully initialized
-        setTimeout(() => {
-          // Verify the remote module is properly initialized
-          try {
-            // @ts-ignore
-            const remoteName = remoteEntry.includes('4201') ? 'status-update' : 'release-notes';
-            // @ts-ignore
-            const container = window[remoteName];
-            
-            if (container && typeof container.get === 'function') {
-              console.log(`Remote ${remoteName} initialized correctly`);
-              resolve();
-            } else {
-              console.warn(`Remote ${remoteName} loaded but may not be initialized correctly`);
-              // We'll resolve anyway and hope for the best
-              resolve();
-            }
-          } catch (err) {
-            console.warn(`Error checking remote initialization:`, err);
-            // Continue anyway - the error might be in our verification code
-            resolve();
-          }
-        }, 100);
-      };
-      
-      document.head.appendChild(script);
-    } catch (err) {
-      clearTimeout(timeoutId);
-      console.error(`Error setting up remote ${remoteEntry}:`, err);
-      reject(err);
-    }
-  });
-};
+console.log('Bootstrap process starting - TPM Hub');
 
-console.log('Bootstrap process starting - April 2025 TPM Hub');
-
-// Initialize the federation before bootstrapping the application
-Promise.all([
-  // Load each remote entry with extended timeout
-  loadRemoteWithTimeout(remotes.sosUpdate.remoteEntry, 15000),
-  loadRemoteWithTimeout(remotes.deploymentReadiness.remoteEntry, 15000)
-])
-  .then(() => {
-    console.log('All remote entries loaded successfully - starting bootstrap');
-    return platformBrowserDynamic().bootstrapModule(AppModule);
-  })
+// Bootstrap the Shell application without loading any remote entries
+platformBrowserDynamic().bootstrapModule(AppModule)
   .then(module => {
     console.log('Application bootstrapped successfully!');
   })

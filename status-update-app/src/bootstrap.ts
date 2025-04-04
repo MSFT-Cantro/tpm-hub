@@ -11,9 +11,16 @@ if (environment.production) {
 // This is crucial for Module Federation to work correctly
 // We need to ensure the application doesn't start until the document is ready
 function bootstrap() {
-  platformBrowserDynamic()
-    .bootstrapModule(SosUpdateModule)
-    .catch(err => console.error(err));
+  // Only bootstrap if running standalone (not as a remote in Module Federation)
+  const isRunningStandalone = window.location.port === '4201'; // Status update app runs on port 4201
+  
+  if (isRunningStandalone) {
+    platformBrowserDynamic()
+      .bootstrapModule(SosUpdateModule)
+      .catch(err => console.error(err));
+  } else {
+    console.log('Status Update App: Running as a remote, skipping bootstrap');
+  }
 }
 
 // If the document is already ready, bootstrap the application immediately

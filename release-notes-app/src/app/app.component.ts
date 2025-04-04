@@ -8,6 +8,7 @@ type Theme = 'light' | 'dark';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
+  title = 'Deployment Readiness';
   private currentTheme: Theme = 'light';
 
   ngOnInit(): void {

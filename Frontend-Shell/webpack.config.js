@@ -2,7 +2,7 @@ const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPl
 
 module.exports = {
   output: {
-    publicPath: "http://localhost:4200/",
+    publicPath: "auto",
     uniqueName: "frontend-shell"
   },
   optimization: {
@@ -36,11 +36,9 @@ module.exports = {
           singleton: true,
           strictVersion: false
         }
-      },
-      remotes: {
-        'status_update': 'http://localhost:4201/remoteEntry.js',
-        'release_notes': 'http://localhost:4202/remoteEntry.js'
       }
+      // Removing static remotes configuration to enable true lazy loading
+      // Remote apps will be loaded dynamically via loadRemoteModule utility
     })
   ]
 };

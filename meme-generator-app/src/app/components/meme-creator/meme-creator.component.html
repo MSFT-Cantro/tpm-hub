@@ -1,0 +1,85 @@
+<div class="meme-creator-container">
+  <div class="meme-form-container">
+    <h2>Create Your Meme</h2>
+    
+    <form [formGroup]="memeForm" class="meme-form">
+      <div class="form-group">
+        <label for="topText">Top Text:</label>
+        <input 
+          type="text" 
+          id="topText" 
+          formControlName="topText" 
+          placeholder="Enter top text">
+      </div>
+      
+      <div class="form-group">
+        <label for="bottomText">Bottom Text:</label>
+        <input 
+          type="text" 
+          id="bottomText" 
+          formControlName="bottomText" 
+          placeholder="Enter bottom text">
+      </div>
+      
+      <div class="form-group">
+        <label for="templateSelect">Select Template:</label>
+        <select 
+          id="templateSelect" 
+          formControlName="templateId"
+          (change)="onTemplateSelected()">
+          <option value="">-- Select a template --</option>
+          <option *ngFor="let template of templates" [value]="template.id">
+            {{ template.name }}
+          </option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label for="customImage">Or Upload Your Own Image:</label>
+        <input 
+          type="file" 
+          id="customImage" 
+          accept="image/*"
+          (change)="onFileSelected($event)">
+      </div>
+      
+      <div class="actions">
+        <button 
+          type="button" 
+          (click)="copyToClipboard()" 
+          [disabled]="!previewMeme.imageUrl">
+          Copy to Clipboard
+        </button>
+        
+        <button 
+          type="button" 
+          (click)="resetForm()" 
+          class="reset-btn">
+          Reset
+        </button>
+      </div>
+      
+      <div *ngIf="copySuccess" class="success-message">
+        <span><i class="fas fa-check-circle"></i> Meme copied to clipboard!</span>
+      </div>
+      
+      <div *ngIf="errorMessage" class="error-message">
+        <span><i class="fas fa-exclamation-circle"></i> {{ errorMessage }}</span>
+      </div>
+    </form>
+  </div>
+  
+  <div class="meme-preview">
+    <h2>Meme Preview</h2>
+    
+    <div *ngIf="previewMeme.imageUrl" class="meme-container" #memeCanvas>
+      <img [src]="previewMeme.imageUrl" alt="Meme template" class="meme-image">
+      <div *ngIf="previewMeme.topText" class="meme-text top-text">{{ previewMeme.topText }}</div>
+      <div *ngIf="previewMeme.bottomText" class="meme-text bottom-text">{{ previewMeme.bottomText }}</div>
+    </div>
+    
+    <div *ngIf="!previewMeme.imageUrl" class="empty-preview">
+      <p>Select a template or upload an image to preview your meme here.</p>
+    </div>
+  </div>
+</div>

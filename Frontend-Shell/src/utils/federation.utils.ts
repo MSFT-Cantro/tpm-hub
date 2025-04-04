@@ -12,7 +12,9 @@ export function loadRemoteModule(
   remoteName: string,
   exposedModule: string
 ) {
-  console.log(`Loading remote module: ${remoteName}/${exposedModule}`);
+  console.log(`Loading remote module on demand: ${remoteName}/${exposedModule}`);
+  
+  // Use standard script-based loading without the 'type' parameter
   return federationLoadRemoteModule({
     remoteEntry,
     remoteName,
@@ -28,6 +30,10 @@ export function loadRemoteModule(
     if (module.DeploymentReadinessModule) {
       console.log('Found DeploymentReadinessModule, returning it');
       return module.DeploymentReadinessModule;
+    }
+    if (module.MemeGeneratorModule) {
+      console.log('Found MemeGeneratorModule, returning it');
+      return module.MemeGeneratorModule;
     }
     if (module.AppModule) {
       console.log('Found AppModule, returning it');
@@ -46,17 +52,23 @@ export function loadRemoteModule(
 // Export the remote configurations for use in the app
 export const remotes = {
   sosUpdate: {
-    remoteEntry: 'http://localhost:4201/remoteEntry.js',
+    remoteEntry: '//localhost:4201/remoteEntry.js',
     remoteName: 'sos_update',
     exposedModule: './SosUpdateModule'
   },
   deploymentReadiness: {
-    remoteEntry: 'http://localhost:4202/remoteEntry.js',
+    remoteEntry: '//localhost:4202/remoteEntry.js',
     remoteName: 'deployment_readiness',
     exposedModule: './DeploymentReadinessModule'
+  },
+  memeGenerator: {
+    remoteEntry: '//localhost:4203/remoteEntry.js',
+    remoteName: 'meme_generator',
+    exposedModule: './MemeGeneratorModule'
   }
 };
 
 // For backwards compatibility
 export const sosUpdateRemoteEntry = remotes.sosUpdate.remoteEntry;
 export const deploymentReadinessRemoteEntry = remotes.deploymentReadiness.remoteEntry;
+export const memeGeneratorRemoteEntry = remotes.memeGenerator.remoteEntry;

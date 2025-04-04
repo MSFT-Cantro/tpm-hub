@@ -1,48 +1,9 @@
 import { NgModule, Component } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { loadRemoteModule, remotes } from '../utils/federation.utils';
+import { ErrorLoggingService } from './services/error-logging.service';
 
-// Create a fallback component for when modules fail to load
-@Component({
-  template: `
-    <div style="padding: 20px; border: 2px solid #d32f2f; margin: 20px; background: var(--bg-secondary);">
-      <h2 style="color: var(--text-primary);">Module Loading Error</h2>
-      <p style="color: var(--text-secondary);">There was an error loading the requested module.</p>
-      <p style="color: var(--text-secondary);"><strong>Error:</strong> {{error}}</p>
-      <h3 style="color: var(--text-primary);">Troubleshooting Steps:</h3>
-      <ol style="color: var(--text-secondary);">
-        <li>Make sure all applications are running (sos-update-app on port 4201, deployment-readiness-app on port 4202)</li>
-        <li>Check the console for detailed error messages</li>
-        <li>Refresh the page to try again</li>
-      </ol>
-      <button (click)="refresh()" class="error-refresh-btn">
-        Refresh Page
-      </button>
-    </div>
-  `,
-  styles: [`
-    .error-refresh-btn {
-      padding: 8px 16px;
-      background: var(--accent-primary);
-      color: white;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-    
-    .error-refresh-btn:hover {
-      background: var(--accent-secondary);
-    }
-  `]
-})
-export class ModuleErrorComponent {
-  error = localStorage.getItem('moduleLoadError') || 'Unknown error';
-  
-  refresh() {
-    window.location.reload();
-  }
-}
+// The inline ModuleErrorComponent is now replaced with our enhanced ErrorComponent in the error folder
 
 // Welcome component for the home page
 @Component({
@@ -62,6 +23,12 @@ export class ModuleErrorComponent {
             <div class="welcome-card" style="padding: 20px; border-radius: 8px; background: var(--card-bg); min-width: 200px; transition: all 0.3s; border: 1px solid var(--border-color); box-shadow: 0 4px 8px var(--shadow-color);">
               <h3 style="margin-bottom: 10px; color: var(--accent-primary);">Deployment Readiness</h3>
               <p style="color: var(--text-secondary);">Track and manage release readiness for your products</p>
+            </div>
+          </a>
+          <a routerLink="/meme-generator" style="text-decoration: none;">
+            <div class="welcome-card" style="padding: 20px; border-radius: 8px; background: var(--card-bg); min-width: 200px; transition: all 0.3s; border: 1px solid var(--border-color); box-shadow: 0 4px 8px var(--shadow-color);">
+              <h3 style="margin-bottom: 10px; color: var(--accent-primary);">Meme Generator</h3>
+              <p style="color: var(--text-secondary);">Create custom memes and copy to clipboard</p>
             </div>
           </a>
         </div>
@@ -91,6 +58,7 @@ export class WelcomeComponent {}
         <li>Frontend Shell: <span style="color: var(--accent-secondary);">✓ Running</span></li>
         <li>SoS Update App: <button (click)="checkApp('http://localhost:4201')" class="debug-check-btn">Check</button> <span id="sos-check">Unknown</span></li>
         <li>Deployment Readiness App: <button (click)="checkApp('http://localhost:4202')" class="debug-check-btn">Check</button> <span id="deployment-check">Unknown</span></li>
+        <li>Meme Generator App: <button (click)="checkApp('http://localhost:4203')" class="debug-check-btn">Check</button> <span id="meme-check">Unknown</span></li>
       </ul>
     </div>
   `,
@@ -112,7 +80,7 @@ export class DebugComponent {
   timestamp = new Date().toISOString();
   
   checkApp(url: string) {
-    const id = url.includes('4201') ? 'sos-check' : 'deployment-check';
+    let id = url.includes('4201') ? 'sos-check' : (url.includes('4202') ? 'deployment-check' : 'meme-check');
     const element = document.getElementById(id);
     if (element) {
       element.textContent = 'Checking...';
@@ -139,7 +107,10 @@ const routes: Routes = [
   { path: '', redirectTo: 'welcome', pathMatch: 'full' },
   { path: 'welcome', component: WelcomeComponent },
   { path: 'debug', component: DebugComponent },
-  { path: 'error', component: ModuleErrorComponent },
+  { 
+    path: 'error',
+    loadChildren: () => import('./components/error/error.module').then(m => m.ErrorModule)
+  },
   {
     path: 'sos-update',
     loadChildren: () => {
@@ -151,6 +122,13 @@ const routes: Routes = [
       ).catch(err => {
         console.error('Error loading sos-update module:', err);
         localStorage.setItem('moduleLoadError', err.toString());
+        // Use the ErrorLoggingService to log the federation error
+        const errorService = new ErrorLoggingService();
+        errorService.logFederationError(`Failed to load sos-update module: ${err.message || err}`, {
+          remoteEntry: remotes.sosUpdate.remoteEntry,
+          remoteName: remotes.sosUpdate.remoteName,
+          exposedModule: remotes.sosUpdate.exposedModule
+        });
         window.location.href = '/error';
         return import('./components/error/error.module').then(m => m.ErrorModule);
       });
@@ -167,6 +145,36 @@ const routes: Routes = [
       ).catch(err => {
         console.error('Error loading deployment-readiness module:', err);
         localStorage.setItem('moduleLoadError', err.toString());
+        // Use the ErrorLoggingService to log the federation error
+        const errorService = new ErrorLoggingService();
+        errorService.logFederationError(`Failed to load deployment-readiness module: ${err.message || err}`, {
+          remoteEntry: remotes.deploymentReadiness.remoteEntry,
+          remoteName: remotes.deploymentReadiness.remoteName,
+          exposedModule: remotes.deploymentReadiness.exposedModule
+        });
+        window.location.href = '/error';
+        return import('./components/error/error.module').then(m => m.ErrorModule);
+      });
+    }
+  },
+  {
+    path: 'meme-generator',
+    loadChildren: () => {
+      console.log('Loading meme-generator module');
+      return loadRemoteModule(
+        remotes.memeGenerator.remoteEntry,
+        remotes.memeGenerator.remoteName,
+        remotes.memeGenerator.exposedModule
+      ).catch(err => {
+        console.error('Error loading meme-generator module:', err);
+        localStorage.setItem('moduleLoadError', err.toString());
+        // Use the ErrorLoggingService to log the federation error
+        const errorService = new ErrorLoggingService();
+        errorService.logFederationError(`Failed to load meme-generator module: ${err.message || err}`, {
+          remoteEntry: remotes.memeGenerator.remoteEntry,
+          remoteName: remotes.memeGenerator.remoteName,
+          exposedModule: remotes.memeGenerator.exposedModule
+        });
         window.location.href = '/error';
         return import('./components/error/error.module').then(m => m.ErrorModule);
       });
@@ -178,6 +186,6 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
-  declarations: [WelcomeComponent, DebugComponent, ModuleErrorComponent]
+  declarations: [WelcomeComponent, DebugComponent]
 })
 export class AppRoutingModule { }

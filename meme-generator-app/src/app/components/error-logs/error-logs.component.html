@@ -1,0 +1,75 @@
+<div class="error-logs-container">
+  <h2>Meme Generator Error Logs</h2>
+  
+  <div class="controls">
+    <div class="search-filter">
+      <input type="text" placeholder="Search errors..." [(ngModel)]="searchQuery" (ngModelChange)="onSearchChange($event)" />
+      
+      <div class="type-filters">
+        <button [class.active]="filterType === 'all'" (click)="setFilter('all')">All</button>
+        <button [class.active]="filterType === 'federation'" (click)="setFilter('federation')">Federation</button>
+        <button [class.active]="filterType === 'angular'" (click)="setFilter('angular')">Angular</button>
+        <button [class.active]="filterType === 'javascript'" (click)="setFilter('javascript')">JavaScript</button>
+        <button [class.active]="filterType === 'network'" (click)="setFilter('network')">Network</button>
+        <button [class.active]="filterType === 'other'" (click)="setFilter('other')">Other</button>
+      </div>
+    </div>
+    
+    <div class="actions">
+      <button class="download-btn" (click)="downloadLogs()">Download Logs</button>
+      <button class="clear-btn" (click)="clearLogs()">Clear Logs</button>
+    </div>
+  </div>
+  
+  <div class="logs-panel">
+    <div class="logs-list">
+      <div *ngIf="filteredLogs.length === 0" class="no-logs">
+        <p>No error logs found</p>
+        <p *ngIf="filterType !== 'all' || searchQuery">Try changing your filters</p>
+      </div>
+      
+      <div *ngFor="let log of filteredLogs" class="log-item" [ngClass]="getLogClass(log.type)" (click)="selectLog(log)">
+        <div class="log-header">
+          <span class="log-type">{{ log.type | uppercase }}</span>
+          <span class="log-time">{{ formatTimestamp(log.timestamp) }}</span>
+        </div>
+        <div class="log-message">{{ log.message }}</div>
+        <div *ngIf="log.source" class="log-source">{{ log.source }}</div>
+      </div>
+    </div>
+    
+    <div class="log-details" *ngIf="selectedLog">
+      <h3>Error Details</h3>
+      <div class="detail-section">
+        <div class="detail-label">Type:</div>
+        <div class="detail-value">{{ selectedLog.type | uppercase }}</div>
+      </div>
+      <div class="detail-section">
+        <div class="detail-label">Time:</div>
+        <div class="detail-value">{{ formatTimestamp(selectedLog.timestamp) }}</div>
+      </div>
+      <div class="detail-section">
+        <div class="detail-label">Message:</div>
+        <div class="detail-value">{{ selectedLog.message }}</div>
+      </div>
+      <div class="detail-section" *ngIf="selectedLog.source">
+        <div class="detail-label">Source:</div>
+        <div class="detail-value">{{ selectedLog.source }}</div>
+      </div>
+      <div class="detail-section" *ngIf="selectedLog.lineNumber">
+        <div class="detail-label">Line:</div>
+        <div class="detail-value">{{ selectedLog.lineNumber }}</div>
+      </div>
+      <div class="detail-section" *ngIf="selectedLog.stackTrace">
+        <div class="detail-label">Stack Trace:</div>
+        <div class="detail-value stack-trace">{{ selectedLog.stackTrace }}</div>
+      </div>
+      <div class="detail-section" *ngIf="selectedLog.additionalInfo">
+        <div class="detail-label">Additional Info:</div>
+        <div class="detail-value pre-formatted">
+          <pre>{{ selectedLog.additionalInfo | json }}</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
