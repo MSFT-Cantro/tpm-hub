@@ -36,6 +36,16 @@
 }
 
 /* Global styles */
+html {
+  box-sizing: border-box;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -43,6 +53,12 @@ body {
   color: var(--text-primary);
   background-color: var(--bg-primary);
   transition: background-color 0.3s ease, color 0.3s ease;
+  font-size: 16px;
+  line-height: 1.5;
+  overflow-x: hidden;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .app-placeholder {
@@ -60,6 +76,75 @@ body {
   p {
     color: var(--text-secondary);
     font-size: 1.1rem;
+  }
+}
+
+/* Mobile scroll behavior - refined */
+body.menu-open {
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+}
+
+/* Mobile-friendly typography */
+@media (max-width: 768px) {
+  body {
+    font-size: 15px;
+  }
+  
+  h1 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+  }
+  
+  h2 {
+    font-size: 1.5rem;
+    margin-bottom: 0.8rem;
+  }
+  
+  h3 {
+    font-size: 1.3rem;
+    margin-bottom: 0.6rem;
+  }
+  
+  p {
+    margin-bottom: 1rem;
+  }
+  
+  .app-placeholder {
+    padding: 1.5rem;
+    
+    h2 {
+      margin-bottom: 0.8rem;
+    }
+    
+    p {
+      font-size: 1rem;
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  body {
+    font-size: 14px;
+  }
+  
+  h1 {
+    font-size: 1.6rem;
+  }
+  
+  h2 {
+    font-size: 1.4rem;
+  }
+  
+  h3 {
+    font-size: 1.2rem;
+  }
+  
+  .app-placeholder {
+    padding: 1.2rem;
+    border-radius: 6px;
   }
 }
 
@@ -88,5 +173,145 @@ body {
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
+  }
+}
+
+img, video, canvas {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Mobile-friendly button and input styles */
+button, input, select, textarea {
+  font-family: inherit;
+  font-size: 100%;
+  max-width: 100%;
+}
+
+/* Touch-friendly form controls - enhanced */
+input, select, textarea, button {
+  font-family: inherit;
+  font-size: 16px;
+  max-width: 100%;
+}
+
+@media (max-width: 576px) {
+  input, select, textarea, button {
+    padding: 12px 16px !important; /* Important to override any inline styles */
+  }
+  
+  /* Improved tap target size */
+  .nav-link, .btn, button, a {
+    min-height: 44px;
+    min-width: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+}
+
+/* Responsive tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  overflow-x: auto;
+  display: block;
+  
+  @media (min-width: 768px) {
+    display: table;
+  }
+}
+
+/* Responsive grid utilities */
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -15px;
+  margin-left: -15px;
+}
+
+.col {
+  position: relative;
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+/* Common responsive breakpoints for our apps */
+@media (max-width: 576px) {
+  .hide-xs {
+    display: none !important;
+  }
+  
+  body {
+    font-size: 14px;
+  }
+}
+
+@media (min-width: 576px) {
+  .col-sm {
+    flex-basis: 0;
+    flex-grow: 1;
+  }
+  
+  .col-sm-6 {
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+  
+  .col-sm-12 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}
+
+@media (min-width: 768px) {
+  .col-md {
+    flex-basis: 0;
+    flex-grow: 1;
+  }
+  
+  .col-md-4 {
+    flex: 0 0 33.333333%;
+    max-width: 33.333333%;
+  }
+  
+  .col-md-6 {
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+  
+  .col-md-8 {
+    flex: 0 0 66.666667%;
+    max-width: 66.666667%;
+  }
+  
+  .col-md-12 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}
+
+/* Mobile menu helper classes */
+.menu-open {
+  overflow: hidden;
+}
+
+/* Touch-friendly tap targets */
+.nav-link, button, .btn, a {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+@media (max-width: 768px) {
+  /* Increase spacing for touch targets on mobile */
+  .nav-link, .btn, button {
+    margin-bottom: 8px;
+  }
+  
+  /* Fix for modals on mobile */
+  .modal-content {
+    width: 95%;
+    max-height: 80vh;
+    overflow-y: auto;
   }
 }

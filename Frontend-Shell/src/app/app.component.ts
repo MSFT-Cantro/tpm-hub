@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ThemeService } from './services/theme.service';
 
@@ -12,6 +12,15 @@ export class AppComponent implements OnInit {
   currentTime = new Date().toLocaleString();
   debugPanelVisible = false;
   settingsModalVisible = false;
+  isSideNavOpen = false;
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    // Close sidenav automatically on larger screens
+    if (window.innerWidth > 768 && this.isSideNavOpen) {
+      this.isSideNavOpen = false;
+    }
+  }
 
   constructor(
     private http: HttpClient,
@@ -25,6 +34,17 @@ export class AppComponent implements OnInit {
     }, 1000);
     
     // The theme service is automatically initialized when injected
+  }
+
+  toggleSideNav(): void {
+    this.isSideNavOpen = !this.isSideNavOpen;
+    
+    // Prevent body scrolling when menu is open on mobile
+    if (this.isSideNavOpen) {
+      document.body.classList.add('menu-open');
+    } else {
+      document.body.classList.remove('menu-open');
+    }
   }
 
   toggleDebugPanel() {

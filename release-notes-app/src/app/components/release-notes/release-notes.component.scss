@@ -10,6 +10,16 @@
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   border: 1px solid var(--accent-color);
   transition: background-color 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  
+  @media (max-width: 768px) {
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  
+  @media (max-width: 576px) {
+    padding: 15px;
+    border-radius: 8px;
+  }
 }
 
 .form-title {
@@ -31,6 +41,17 @@
     margin: 12px auto 0;
     border-radius: 2px;
   }
+  
+  @media (max-width: 576px) {
+    font-size: 20px;
+    margin-bottom: 20px;
+    
+    &:after {
+      width: 60px;
+      height: 3px;
+      margin: 10px auto 0;
+    }
+  }
 }
 
 .form-group {
@@ -43,6 +64,16 @@
   border-radius: 8px;
   background-color: var(--background-secondary);
   transition: background-color 0.3s ease;
+  
+  @media (max-width: 768px) {
+    padding: 15px;
+    margin-bottom: 25px;
+  }
+  
+  @media (max-width: 576px) {
+    padding: 12px;
+    margin-bottom: 20px;
+  }
 }
 
 .form-label {
@@ -131,6 +162,11 @@ textarea.form-control {
   display: flex;
   flex-wrap: wrap;
   gap: 15px;
+  
+  @media (max-width: 576px) {
+    flex-direction: column;
+    gap: 10px;
+  }
 }
 
 .radio-option {
@@ -211,6 +247,11 @@ textarea.form-control {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
   gap: 15px;
+  
+  @media (max-width: 576px) {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 10px;
+  }
 }
 
 .option-card {
@@ -279,6 +320,11 @@ textarea.form-control {
   justify-content: center;
   gap: 15px;
   margin-top: 30px;
+  
+  @media (max-width: 576px) {
+    flex-direction: column;
+    margin-top: 20px;
+  }
 }
 
 .btn {
@@ -292,6 +338,11 @@ textarea.form-control {
   transition: all 0.2s ease;
   border: none;
   cursor: pointer;
+  
+  @media (max-width: 576px) {
+    padding: 14px 24px; /* Larger touch target on mobile */
+    width: 100%;
+  }
   
   .btn-icon {
     font-size: 18px;

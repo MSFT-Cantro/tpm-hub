@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 
 type Theme = 'light' | 'dark';
@@ -11,6 +11,15 @@ type Theme = 'light' | 'dark';
 export class AppComponent implements OnInit {
   title = 'SoS Update App';
   private currentTheme: Theme = 'light';
+  isSideNavOpen = false;
+  
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    // Close sidenav automatically on larger screens
+    if (window.innerWidth > 768 && this.isSideNavOpen) {
+      this.isSideNavOpen = false;
+    }
+  }
   
   constructor(public router: Router) {}
 
@@ -27,6 +36,17 @@ export class AppComponent implements OnInit {
         this.applyTheme(event.data.theme);
       }
     });
+  }
+
+  toggleSideNav(): void {
+    this.isSideNavOpen = !this.isSideNavOpen;
+    
+    // Add body class when menu is open to prevent scrolling on mobile
+    if (this.isSideNavOpen) {
+      document.body.classList.add('menu-open');
+    } else {
+      document.body.classList.remove('menu-open');
+    }
   }
 
   private applyTheme(theme: Theme): void {

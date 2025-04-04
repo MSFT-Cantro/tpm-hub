@@ -63,6 +63,16 @@
 }
 
 /* Base styles */
+html {
+  box-sizing: border-box;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -70,6 +80,87 @@ body {
   color: var(--text-color);
   background-color: var(--background-secondary);
   transition: background-color 0.3s ease, color 0.3s ease;
+  font-size: 16px;
+  line-height: 1.5;
+  overflow-x: hidden;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Mobile-friendly responsive typography */
+@media (max-width: 768px) {
+  body {
+    font-size: 15px;
+  }
+  
+  h1 {
+    font-size: 1.8rem;
+  }
+  
+  h2 {
+    font-size: 1.5rem;
+  }
+  
+  h3 {
+    font-size: 1.3rem;
+  }
+}
+
+@media (max-width: 576px) {
+  body {
+    font-size: 14px;
+  }
+  
+  h1 {
+    font-size: 1.6rem;
+  }
+  
+  h2 {
+    font-size: 1.4rem;
+  }
+  
+  h3 {
+    font-size: 1.2rem;
+  }
+}
+
+/* Mobile-friendly images and media */
+img, video, canvas {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Mobile scroll behavior */
+body.menu-open {
+  overflow: hidden;
+}
+
+/* Touch-friendly form controls */
+input, select, textarea, button {
+  font-family: inherit;
+  font-size: 16px; /* Prevents zoom on iOS */
+  max-width: 100%;
+}
+
+@media (max-width: 576px) {
+  input, select, textarea, button {
+    padding: 12px 15px; /* Larger touch targets on mobile */
+  }
+}
+
+/* Responsive tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  overflow-x: auto;
+  display: block;
+}
+
+@media (min-width: 768px) {
+  table {
+    display: table;
+  }
 }
 
 /* Screen reader only class */

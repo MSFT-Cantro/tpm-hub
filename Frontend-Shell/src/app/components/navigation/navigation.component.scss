@@ -37,7 +37,27 @@
           border-left-color: var(--accent-primary);
           font-weight: 600;
         }
+        
+        /* Enhanced touch target for mobile */
+        @media (max-width: 768px) {
+          padding: 16px 20px;
+          
+          .icon {
+            font-size: 20px;
+          }
+          
+          .text {
+            font-size: 16px;
+          }
+        }
       }
+    }
+  }
+  
+  /* For collapsed sidebar on mobile */
+  @media (max-width: 576px) {
+    ul li a {
+      padding: 18px 20px;
     }
   }
 }
