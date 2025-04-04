@@ -1,0 +1,114 @@
+.settings-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s, visibility 0.3s;
+  
+  &.visible {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+.settings-modal-content {
+  width: 90%;
+  max-width: 500px;
+  background-color: var(--bg-primary, #fff);
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.settings-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border-color, #eaeaea);
+  
+  h2 {
+    margin: 0;
+    font-size: 1.25rem;
+    color: var(--text-primary, #333);
+  }
+  
+  .modal-close-button {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--text-secondary, #666);
+    padding: 0;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    transition: background-color 0.2s;
+    
+    &:hover {
+      background-color: var(--bg-hover, #f5f5f5);
+    }
+  }
+}
+
+.settings-modal-body {
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.settings-section {
+  margin-bottom: 24px;
+  
+  h3 {
+    font-size: 1rem;
+    margin: 0 0 12px;
+    color: var(--text-primary, #333);
+    font-weight: 600;
+  }
+}
+
+.settings-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  
+  span {
+    color: var(--text-secondary, #666);
+  }
+}
+
+.debug-button {
+  display: flex;
+  align-items: center;
+  background: none;
+  border: 1px solid var(--border-color, #eaeaea);
+  border-radius: 4px;
+  padding: 6px 12px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  color: var(--text-primary, #333);
+  transition: background-color 0.2s;
+  
+  &:hover {
+    background-color: var(--bg-hover, #f5f5f5);
+  }
+  
+  .debug-icon {
+    margin-right: 6px;
+  }
+}

@@ -6,12 +6,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavigationComponent } from './components/navigation/navigation.component';
 import { ThemeToggleComponent } from './components/theme-toggle/theme-toggle.component';
+import { SettingsModalComponent } from './components/settings-modal/settings-modal.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavigationComponent,
-    ThemeToggleComponent
+    ThemeToggleComponent,
+    SettingsModalComponent
   ],
   imports: [
     BrowserModule,

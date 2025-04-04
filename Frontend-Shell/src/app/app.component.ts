@@ -11,6 +11,7 @@ export class AppComponent implements OnInit {
   title = 'TPM Hub';
   currentTime = new Date().toLocaleString();
   debugPanelVisible = false;
+  settingsModalVisible = false;
 
   constructor(
     private http: HttpClient,
@@ -31,6 +32,14 @@ export class AppComponent implements OnInit {
     if (this.debugPanelVisible) {
       this.checkMicroFrontends();
     }
+  }
+
+  toggleSettingsModal() {
+    this.settingsModalVisible = !this.settingsModalVisible;
+  }
+
+  closeSettingsModal() {
+    this.settingsModalVisible = false;
   }
 
   checkMicroFrontends() {

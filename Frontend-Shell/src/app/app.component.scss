@@ -62,6 +62,35 @@
     justify-content: center;
     margin-bottom: 5px;
   }
+  
+  .settings-button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 5px;
+  }
+  
+  .settings-button {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: var(--text-primary);
+    
+    &:hover {
+      background-color: var(--input-bg);
+      transform: rotate(30deg);
+    }
+    
+    .settings-icon {
+      font-size: 20px;
+    }
+  }
 }
 
 .main-wrapper {

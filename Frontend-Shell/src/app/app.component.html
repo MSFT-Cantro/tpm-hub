@@ -10,16 +10,10 @@
     <app-navigation></app-navigation>
     
     <div class="utility-buttons">
-      <!-- Theme Toggle Button -->
-      <div class="theme-toggle-container">
-        <app-theme-toggle></app-theme-toggle>
-      </div>
-      
-      <!-- Debug Button -->
-      <div class="debug-button-container">
-        <button (click)="toggleDebugPanel()" class="debug-toggle-button" aria-label="Toggle Debug Panel">
-          <span class="debug-icon">🛠️</span>
-          <span>Debug</span>
+      <!-- Settings Gear Button -->
+      <div class="settings-button-container">
+        <button (click)="toggleSettingsModal()" class="settings-button" aria-label="Open Settings">
+          <span class="settings-icon">⚙️</span>
         </button>
       </div>
     </div>
@@ -45,3 +39,9 @@
     </main>
   </div>
 </div>
+
+<!-- Settings Modal Component -->
+<app-settings-modal 
+  [isVisible]="settingsModalVisible" 
+  (close)="closeSettingsModal()">
+</app-settings-modal>
