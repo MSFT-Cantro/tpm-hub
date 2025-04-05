@@ -42,19 +42,16 @@ $baseDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 $frontendShellDir = Join-Path $baseDir "Frontend-Shell"
 $statusUpdateAppDir = Join-Path $baseDir "status-update-app" 
 $releaseNotesAppDir = Join-Path $baseDir "release-notes-app"
-$memeGeneratorAppDir = Join-Path $baseDir "meme-generator-app"
 $apiServerDir = Join-Path $baseDir "api-server"
 
 # Start each application
 Start-Application -Name "Frontend Shell" -Directory $frontendShellDir -Port 4200
 Start-Application -Name "Status Update App" -Directory $statusUpdateAppDir -Port 4201
 Start-Application -Name "Release Notes App" -Directory $releaseNotesAppDir -Port 4202
-Start-Application -Name "Meme Generator App" -Directory $memeGeneratorAppDir -Port 4203
 Start-Application -Name "API Server" -Directory $apiServerDir -Port 3000
 
 Write-Host "All applications started!" -ForegroundColor Green
 Write-Host "Frontend Shell:     http://localhost:4200" -ForegroundColor Cyan
 Write-Host "Status Update App:  http://localhost:4201" -ForegroundColor Cyan
 Write-Host "Release Notes App:  http://localhost:4202" -ForegroundColor Cyan
-Write-Host "Meme Generator App: http://localhost:4203" -ForegroundColor Cyan
 Write-Host "API Server:         http://localhost:3000" -ForegroundColor Cyan

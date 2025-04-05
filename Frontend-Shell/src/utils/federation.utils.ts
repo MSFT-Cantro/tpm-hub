@@ -31,10 +31,6 @@ export function loadRemoteModule(
       console.log('Found DeploymentReadinessModule, returning it');
       return module.DeploymentReadinessModule;
     }
-    if (module.MemeGeneratorModule) {
-      console.log('Found MemeGeneratorModule, returning it');
-      return module.MemeGeneratorModule;
-    }
     if (module.AppModule) {
       console.log('Found AppModule, returning it');
       return module.AppModule;
@@ -60,15 +56,9 @@ export const remotes = {
     remoteEntry: '//localhost:4202/remoteEntry.js',
     remoteName: 'deployment_readiness',
     exposedModule: './DeploymentReadinessModule'
-  },
-  memeGenerator: {
-    remoteEntry: '//localhost:4203/remoteEntry.js',
-    remoteName: 'meme_generator',
-    exposedModule: './MemeGeneratorModule'
   }
 };
 
 // For backwards compatibility
 export const sosUpdateRemoteEntry = remotes.sosUpdate.remoteEntry;
 export const deploymentReadinessRemoteEntry = remotes.deploymentReadiness.remoteEntry;
-export const memeGeneratorRemoteEntry = remotes.memeGenerator.remoteEntry;

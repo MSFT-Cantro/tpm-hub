@@ -25,12 +25,6 @@ import { ErrorLoggingService } from './services/error-logging.service';
               <p style="color: var(--text-secondary);">Track and manage release readiness for your products</p>
             </div>
           </a>
-          <a routerLink="/meme-generator" style="text-decoration: none; width: 100%; max-width: 300px;">
-            <div class="welcome-card" style="padding: 20px; border-radius: 8px; background: var(--card-bg); transition: all 0.3s; border: 1px solid var(--border-color); box-shadow: 0 4px 8px var(--shadow-color);">
-              <h3 style="margin-bottom: 10px; color: var(--accent-primary);">Meme Generator</h3>
-              <p style="color: var(--text-secondary);">Create custom memes and copy to clipboard</p>
-            </div>
-          </a>
         </div>
       </div>
     </div>
@@ -58,7 +52,6 @@ export class WelcomeComponent {}
         <li>Frontend Shell: <span style="color: var(--accent-secondary);">✓ Running</span></li>
         <li>SoS Update App: <button (click)="checkApp('http://localhost:4201')" class="debug-check-btn">Check</button> <span id="sos-check">Unknown</span></li>
         <li>Deployment Readiness App: <button (click)="checkApp('http://localhost:4202')" class="debug-check-btn">Check</button> <span id="deployment-check">Unknown</span></li>
-        <li>Meme Generator App: <button (click)="checkApp('http://localhost:4203')" class="debug-check-btn">Check</button> <span id="meme-check">Unknown</span></li>
       </ul>
     </div>
   `,
@@ -80,7 +73,7 @@ export class DebugComponent {
   timestamp = new Date().toISOString();
   
   checkApp(url: string) {
-    let id = url.includes('4201') ? 'sos-check' : (url.includes('4202') ? 'deployment-check' : 'meme-check');
+    let id = url.includes('4201') ? 'sos-check' : 'deployment-check';
     const element = document.getElementById(id);
     if (element) {
       element.textContent = 'Checking...';
@@ -151,29 +144,6 @@ const routes: Routes = [
           remoteEntry: remotes.deploymentReadiness.remoteEntry,
           remoteName: remotes.deploymentReadiness.remoteName,
           exposedModule: remotes.deploymentReadiness.exposedModule
-        });
-        window.location.href = '/error';
-        return import('./components/error/error.module').then(m => m.ErrorModule);
-      });
-    }
-  },
-  {
-    path: 'meme-generator',
-    loadChildren: () => {
-      console.log('Loading meme-generator module');
-      return loadRemoteModule(
-        remotes.memeGenerator.remoteEntry,
-        remotes.memeGenerator.remoteName,
-        remotes.memeGenerator.exposedModule
-      ).catch(err => {
-        console.error('Error loading meme-generator module:', err);
-        localStorage.setItem('moduleLoadError', err.toString());
-        // Use the ErrorLoggingService to log the federation error
-        const errorService = new ErrorLoggingService();
-        errorService.logFederationError(`Failed to load meme-generator module: ${err.message || err}`, {
-          remoteEntry: remotes.memeGenerator.remoteEntry,
-          remoteName: remotes.memeGenerator.remoteName,
-          exposedModule: remotes.memeGenerator.exposedModule
         });
         window.location.href = '/error';
         return import('./components/error/error.module').then(m => m.ErrorModule);
