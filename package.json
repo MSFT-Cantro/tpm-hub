@@ -1,0 +1,9 @@
+{
+  "scripts": {
+    "start-frontend": "cd frontend-shell && npm start",
+    "start-status-update-app": "cd status-update-app && npm start",
+    "start-release-notes-app": "cd release-notes-app && npm start",
+    "start-backend": "cd api-server && npm start",
+     "start": "concurrently \"npm run start-frontend\" \"npm run start-status-update-app\" \"npm run start-release-notes-app\" \"npm run start-backend\""
+  }
+}

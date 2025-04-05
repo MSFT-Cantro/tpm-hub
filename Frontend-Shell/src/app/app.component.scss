@@ -108,6 +108,7 @@
   border-radius: 10px;
   box-shadow: 0 2px 10px var(--shadow-color);
   padding: 25px;
+  overflow-x: hidden; /* Prevent horizontal scrolling on mobile */
 }
 
 /* Debug Panel & Button Styling */
@@ -227,6 +228,7 @@
   
   .main-content {
     padding: 20px;
+    max-width: 95%; /* Allow more breathing room */
   }
 }
 
@@ -256,28 +258,33 @@
   
   .main-wrapper {
     margin-left: 0;
-    padding: 15px;
+    padding: 15px 10px;
     width: 100%;
+    overflow-x: hidden;
   }
   
   .main-content {
-    padding: 20px;
+    padding: 20px 15px;
     border-radius: 8px;
+    width: 100%;
+    box-sizing: border-box;
   }
 }
 
 @media (max-width: 576px) {
   .main-wrapper {
-    padding: 10px;
+    padding: 10px 5px;
   }
   
   .main-content {
-    padding: 15px;
+    padding: 15px 12px;
     border-radius: 6px;
+    margin-top: 40px; /* Add space for the menu toggle */
   }
   
   .debug-panel {
-    padding: 15px;
+    padding: 15px 10px;
+    overflow-x: auto; /* Make tables and wide content scrollable */
   }
   
   /* Font size adjustments for mobile */
@@ -291,5 +298,22 @@
   
   h3 {
     font-size: 1.1rem !important;
+  }
+  
+  /* Improve touch targets for mobile */
+  button, 
+  a, 
+  input[type="button"], 
+  input[type="submit"] {
+    min-height: 44px; /* Apple's recommended minimum touch target size */
+    min-width: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* Improve form elements on mobile */
+  input, select, textarea {
+    font-size: 16px !important; /* Prevents iOS zoom on focus */
   }
 }

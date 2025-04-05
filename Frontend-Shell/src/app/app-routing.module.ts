@@ -12,21 +12,21 @@ import { ErrorLoggingService } from './services/error-logging.service';
       <h1 style="font-size: 2.5rem; margin-bottom: 20px; color: var(--text-primary);">Welcome to the TPM Hub 🤹</h1>
       <div style="max-width: 800px; margin: 0 auto; line-height: 1.6;">
         <p style="font-size: 1.2rem; margin-bottom: 30px; color: var(--text-secondary);">Your central platform for managing product updates and deployment readiness.</p>
-        <div style="display: flex; justify-content: center; gap: 20px; margin-top: 40px;">
-          <a routerLink="/sos-update" style="text-decoration: none;">
-            <div class="welcome-card" style="padding: 20px; border-radius: 8px; background: var(--card-bg); min-width: 200px; transition: all 0.3s; border: 1px solid var(--border-color); box-shadow: 0 4px 8px var(--shadow-color);">
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 20px; margin-top: 40px;">
+          <a routerLink="/sos-update" style="text-decoration: none; width: 100%; max-width: 300px;">
+            <div class="welcome-card" style="padding: 20px; border-radius: 8px; background: var(--card-bg); transition: all 0.3s; border: 1px solid var(--border-color); box-shadow: 0 4px 8px var(--shadow-color);">
               <h3 style="margin-bottom: 10px; color: var(--accent-primary);">SoS Updates</h3>
               <p style="color: var(--text-secondary);">Create and manage SoS updates for your stakeholders</p>
             </div>
           </a>
-          <a routerLink="/deployment-readiness" style="text-decoration: none;">
-            <div class="welcome-card" style="padding: 20px; border-radius: 8px; background: var(--card-bg); min-width: 200px; transition: all 0.3s; border: 1px solid var(--border-color); box-shadow: 0 4px 8px var(--shadow-color);">
+          <a routerLink="/deployment-readiness" style="text-decoration: none; width: 100%; max-width: 300px;">
+            <div class="welcome-card" style="padding: 20px; border-radius: 8px; background: var(--card-bg); transition: all 0.3s; border: 1px solid var(--border-color); box-shadow: 0 4px 8px var(--shadow-color);">
               <h3 style="margin-bottom: 10px; color: var(--accent-primary);">Deployment Readiness</h3>
               <p style="color: var(--text-secondary);">Track and manage release readiness for your products</p>
             </div>
           </a>
-          <a routerLink="/meme-generator" style="text-decoration: none;">
-            <div class="welcome-card" style="padding: 20px; border-radius: 8px; background: var(--card-bg); min-width: 200px; transition: all 0.3s; border: 1px solid var(--border-color); box-shadow: 0 4px 8px var(--shadow-color);">
+          <a routerLink="/meme-generator" style="text-decoration: none; width: 100%; max-width: 300px;">
+            <div class="welcome-card" style="padding: 20px; border-radius: 8px; background: var(--card-bg); transition: all 0.3s; border: 1px solid var(--border-color); box-shadow: 0 4px 8px var(--shadow-color);">
               <h3 style="margin-bottom: 10px; color: var(--accent-primary);">Meme Generator</h3>
               <p style="color: var(--text-secondary);">Create custom memes and copy to clipboard</p>
             </div>

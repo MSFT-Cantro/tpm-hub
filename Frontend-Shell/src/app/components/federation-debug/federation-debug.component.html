@@ -1,0 +1,59 @@
+<div class="federation-debug-container">
+  <div class="debug-header">
+    <h2>Module Federation Debug</h2>
+    <div class="actions">
+      <button (click)="refreshFederationCheck()" class="btn btn-primary">
+        <i class="fas fa-sync-alt"></i> Refresh Check
+      </button>
+      <button (click)="clearLogs()" class="btn btn-danger">
+        <i class="fas fa-trash"></i> Clear Logs
+      </button>
+    </div>
+  </div>
+
+  <div class="filters">
+    <div class="filter-types">
+      <label class="filter-chip" [class.active]="selectedTypes['info']">
+        <input type="checkbox" [checked]="selectedTypes['info']" (change)="toggleType('info')">
+        <span class="info-badge">Info</span>
+      </label>
+      <label class="filter-chip" [class.active]="selectedTypes['warn']">
+        <input type="checkbox" [checked]="selectedTypes['warn']" (change)="toggleType('warn')">
+        <span class="warn-badge">Warnings</span>
+      </label>
+      <label class="filter-chip" [class.active]="selectedTypes['error']">
+        <input type="checkbox" [checked]="selectedTypes['error']" (change)="toggleType('error')">
+        <span class="error-badge">Errors</span>
+      </label>
+    </div>
+    <div class="search-container">
+      <input 
+        type="text" 
+        [(ngModel)]="filterText" 
+        (input)="onFilterChange()"
+        placeholder="Filter logs..." 
+        class="search-input">
+    </div>
+  </div>
+
+  <div class="debug-logs-container">
+    <div *ngIf="filteredLogs.length === 0" class="no-logs">
+      <p>No logs matching the current filters.</p>
+    </div>
+    <div *ngFor="let log of filteredLogs" class="log-entry" [style.background-color]="getLogColor(log)">
+      <div class="log-header">
+        <span class="log-time">{{ log.timestamp | date:'medium' }}</span>
+        <span class="log-type" [ngClass]="{
+          'info-badge': log.type === 'info',
+          'warn-badge': log.type === 'warn',
+          'error-badge': log.type === 'error'
+        }">{{ log.type }}</span>
+      </div>
+      <div class="log-message">{{ log.message }}</div>
+      <div *ngIf="log.details" class="log-details">
+        <pre>{{ log.details | json }}</pre>
+      </div>
+      <div class="log-url">{{ log.url }}</div>
+    </div>
+  </div>
+</div>
