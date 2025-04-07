@@ -335,9 +335,10 @@ textarea.form-control {
   border-radius: 8px;
   font-weight: 500;
   font-size: 16px;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
   border: none;
   cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   
   @media (max-width: 576px) {
     padding: 14px 24px; /* Larger touch target on mobile */
@@ -346,24 +347,178 @@ textarea.form-control {
   
   .btn-icon {
     font-size: 18px;
-    margin-right: 8px;
+    margin-right: 10px;
   }
   
   &:disabled {
     opacity: 0.6;
     cursor: not-allowed;
   }
+  
+  &:focus {
+    outline: 2px solid var(--accent-color);
+    outline-offset: 2px;
+  }
 }
 
-.btn-submit {
-  background-color: var(--button-bg);
-  color: var(--button-text);
+/* Primary button - default submit style */
+.btn-submit, .btn-primary {
+  background-color: var(--button-bg, #4e73df);
+  color: var(--button-text, white);
   text-transform: uppercase;
   letter-spacing: 1px;
   font-size: 14px;
   
   &:hover:not(:disabled) {
-    background-color: var(--button-hover);
+    background-color: var(--button-hover, #375bc8);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
+  
+  &:active:not(:disabled) {
+    background-color: var(--accent-color, #304db7);
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+}
+
+/* Secondary button - less emphasis */
+.btn-secondary {
+  background-color: #6c757d;
+  color: white;
+  
+  &:hover:not(:disabled) {
+    background-color: #5a6268;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
+  
+  &:active:not(:disabled) {
+    background-color: #545b62;
+    transform: translateY(0);
+  }
+}
+
+/* Success button - green */
+.btn-success {
+  background-color: #28a745;
+  color: white;
+  
+  &:hover:not(:disabled) {
+    background-color: #218838;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
+  
+  &:active:not(:disabled) {
+    background-color: #1e7e34;
+    transform: translateY(0);
+  }
+}
+
+/* Warning button - amber/orange */
+.btn-warning {
+  background-color: #ffc107;
+  color: #212529;
+  
+  &:hover:not(:disabled) {
+    background-color: #e0a800;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
+  
+  &:active:not(:disabled) {
+    background-color: #d39e00;
+    transform: translateY(0);
+  }
+}
+
+/* Danger button - red */
+.btn-danger {
+  background-color: #dc3545;
+  color: white;
+  
+  &:hover:not(:disabled) {
+    background-color: #c82333;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
+  
+  &:active:not(:disabled) {
+    background-color: #bd2130;
+    transform: translateY(0);
+  }
+}
+
+/* Info button - blue */
+.btn-info {
+  background-color: #17a2b8;
+  color: white;
+  
+  &:hover:not(:disabled) {
+    background-color: #138496;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
+  
+  &:active:not(:disabled) {
+    background-color: #117a8b;
+    transform: translateY(0);
+  }
+}
+
+/* Outlined button variants */
+.btn-outline {
+  background-color: transparent;
+  border: 2px solid currentColor;
+  
+  &.btn-primary {
+    color: var(--button-bg, #4e73df);
+    background-color: transparent;
+    
+    &:hover:not(:disabled) {
+      background-color: rgba(78, 115, 223, 0.1);
+    }
+  }
+  
+  &.btn-secondary {
+    color: #6c757d;
+    
+    &:hover:not(:disabled) {
+      background-color: rgba(108, 117, 125, 0.1);
+    }
+  }
+  
+  &.btn-success {
+    color: #28a745;
+    
+    &:hover:not(:disabled) {
+      background-color: rgba(40, 167, 69, 0.1);
+    }
+  }
+  
+  &.btn-warning {
+    color: #ffc107;
+    
+    &:hover:not(:disabled) {
+      background-color: rgba(255, 193, 7, 0.1);
+    }
+  }
+  
+  &.btn-danger {
+    color: #dc3545;
+    
+    &:hover:not(:disabled) {
+      background-color: rgba(220, 53, 69, 0.1);
+    }
+  }
+  
+  &.btn-info {
+    color: #17a2b8;
+    
+    &:hover:not(:disabled) {
+      background-color: rgba(23, 162, 184, 0.1);
+    }
   }
 }
 
@@ -432,4 +587,47 @@ textarea.form-control {
 @keyframes pulse {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.6; }
+}
+
+/* Button showcase styling */
+.button-showcase {
+  padding: 15px 10px;
+  
+  .button-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 15px;
+    justify-content: center;
+    
+    @media (max-width: 576px) {
+      flex-direction: column;
+    }
+    
+    button {
+      flex: 1;
+      min-width: 120px;
+      max-width: 200px;
+      
+      @media (max-width: 576px) {
+        max-width: none;
+      }
+    }
+  }
+  
+  .selected-style-text {
+    text-align: center;
+    margin-top: 20px;
+    padding: 10px;
+    background-color: var(--background-secondary);
+    border-radius: 8px;
+    font-size: 14px;
+    color: var(--text-secondary);
+    
+    strong {
+      color: var(--accent-color);
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+  }
 }

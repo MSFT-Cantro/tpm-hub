@@ -11,7 +11,7 @@ export class StatusService {
   private nextId = 1;
 
   constructor() {
-    // Load any saved status updates from localStorage
+    // Load any saved SoS updates from localStorage
     this.loadStatusUpdates();
   }
 

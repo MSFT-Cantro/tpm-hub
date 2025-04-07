@@ -1,9 +1,13 @@
 {
   "scripts": {
     "start-frontend": "cd frontend-shell && npm start",
-    "start-status-update-app": "cd status-update-app && npm start",
+    "start-sos-update-app": "cd sos-update-app && npm start",
     "start-release-notes-app": "cd release-notes-app && npm start",
+    "start-meme-generator-app": "cd meme-generator-app && npm start",
     "start-backend": "cd api-server && npm start",
-     "start": "concurrently \"npm run start-frontend\" \"npm run start-status-update-app\" \"npm run start-release-notes-app\" \"npm run start-backend\""
+    "start": "concurrently \"npm run start-frontend\" \"npm run start-sos-update-app\" \"npm run start-release-notes-app\" \"npm run start-meme-generator-app\" \"npm run start-backend\""
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
   }
 }

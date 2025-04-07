@@ -3,20 +3,19 @@ const path = require('path');
 
 module.exports = {
   output: {
-    publicPath: "http://localhost:4201/",
-    uniqueName: "sos_update", // Updated to new name
-    path: path.join(__dirname, 'dist/sos-update-app'),
+    publicPath: "http://localhost:4203/",
+    uniqueName: "meme_generator",
+    path: path.join(__dirname, 'dist/meme-generator-app'),
     filename: '[name].js'
   },
   optimization: {
     runtimeChunk: false
   },
   devServer: {
-    // Ensure the dev server correctly serves the remoteEntry.js file
     static: {
-      directory: path.join(__dirname, 'dist/sos-update-app'),
+      directory: path.join(__dirname, 'dist/meme-generator-app'),
     },
-    port: 4201,
+    port: 4203,
     historyApiFallback: true,
     headers: {
       "Access-Control-Allow-Origin": "*",
@@ -26,32 +25,32 @@ module.exports = {
   },
   plugins: [
     new ModuleFederationPlugin({
-      name: 'sos_update', // Updated to new name
-      library: { type: 'var', name: 'sos_update' },
+      name: 'meme_generator',
+      library: { type: 'var', name: 'meme_generator' },
       filename: 'remoteEntry.js',
       exposes: {
-        './SosUpdateModule': './src/app/app.module.ts' // Updated to new module name
+        './MemeGeneratorModule': './src/app/app.module.ts'
       },
       shared: {
         "@angular/core": { 
           singleton: true, 
           strictVersion: false,
-          requiredVersion: '^15.0.0'
+          requiredVersion: '^14.0.0'
         },
         "@angular/common": { 
           singleton: true, 
           strictVersion: false,
-          requiredVersion: '^15.0.0'
+          requiredVersion: '^14.0.0'
         },
         "@angular/router": { 
           singleton: true, 
           strictVersion: false,
-          requiredVersion: '^15.0.0'
+          requiredVersion: '^14.0.0'
         },
         "@angular/common/http": { 
           singleton: true, 
           strictVersion: false,
-          requiredVersion: '^15.0.0'
+          requiredVersion: '^14.0.0'
         },
         "rxjs": {
           singleton: true,

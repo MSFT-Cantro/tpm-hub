@@ -46,7 +46,7 @@ export class StatusHistoryComponent implements OnInit {
       return;
     }
 
-    // Filter status updates based on selected options
+    // Filter SoS updates based on selected options
     this.filteredStatusUpdates = this.statusUpdates.filter(status => {
       return (
         (!this.filters.important || status.options?.important) &&
@@ -86,7 +86,7 @@ export class StatusHistoryComponent implements OnInit {
     // Close the modal
     this.isStatusFormModalOpen = false;
     
-    // Refresh the status updates list
+    // Refresh the SoS updates list
     this.loadStatusUpdates();
   }
 }

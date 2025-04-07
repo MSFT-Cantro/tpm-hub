@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { StatusUpdateAppComponent } from './status-update-app.component';
+import { SosUpdateAppComponent } from './status-update-app.component';
 
-describe('StatusUpdateAppComponent', () => {
-  let component: StatusUpdateAppComponent;
-  let fixture: ComponentFixture<StatusUpdateAppComponent>;
+describe('SosUpdateAppComponent', () => {
+  let component: SosUpdateAppComponent;
+  let fixture: ComponentFixture<SosUpdateAppComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [StatusUpdateAppComponent]
+      declarations: [SosUpdateAppComponent]
     });
-    fixture = TestBed.createComponent(StatusUpdateAppComponent);
+    fixture = TestBed.createComponent(SosUpdateAppComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

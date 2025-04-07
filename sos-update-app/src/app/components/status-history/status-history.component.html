@@ -1,9 +1,9 @@
 <div class="status-history-container">
   <div class="status-header">
-    <h2>Status Updates</h2>
+    <h2>SoS Updates</h2>
     <button class="new-status-btn" (click)="openStatusFormModal()">
       <span class="btn-icon">➕</span>
-      New Status Update
+      New SoS Update
     </button>
   </div>
   
@@ -42,7 +42,7 @@
   </fieldset>
 
   <div class="no-updates" *ngIf="filteredStatusUpdates.length === 0">
-    <p>No status updates found matching the selected filters.</p>
+    <p>No SoS updates found matching the selected filters.</p>
   </div>
   
   <div class="status-list" *ngIf="filteredStatusUpdates.length > 0">
@@ -70,7 +70,7 @@
 <!-- Modal for Status Form -->
 <app-modal 
   [isOpen]="isStatusFormModalOpen" 
-  [title]="'Create New Status Update'"
+  [title]="'Create New SoS Update'"
   (closed)="onStatusFormModalClosed()">
   <app-status-form (statusCreated)="onNewStatusSubmitted()"></app-status-form>
 </app-modal>

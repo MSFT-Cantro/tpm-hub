@@ -16,6 +16,7 @@ export class ReleaseNotesComponent implements OnInit {
   isLoading = false;
   error: string | null = null;
   statusMessage = 'System Ready';
+  selectedButtonStyle: string | null = null;
   
   dataCenters = {
     'US-East (LIVE)': true,
@@ -87,6 +88,20 @@ export class ReleaseNotesComponent implements OnInit {
   getSafeId(text: string): string {
     // Replace any non-alphanumeric character with empty string
     return text.replace(/[^a-zA-Z0-9]/g, '');
+  }
+
+  selectButtonStyle(style: string): void {
+    this.selectedButtonStyle = style;
+    
+    // Update the main action button's class
+    const submitBtn = document.querySelector('.btn-submit') as HTMLElement;
+    if (submitBtn) {
+      // Remove all existing style classes
+      submitBtn.classList.remove('btn-primary', 'btn-secondary', 'btn-success', 'btn-warning', 'btn-danger', 'btn-info');
+      
+      // Add the selected style class
+      submitBtn.classList.add(`btn-${style}`);
+    }
   }
 
   fetchQuery(): void {
