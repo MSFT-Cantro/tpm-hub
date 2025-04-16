@@ -1,16 +1,16 @@
 {
-  "name": "sos-update-app",
+  "name": "status-update-app",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --port 4201 --extra-webpack-config webpack.config.js",
+    "start": "ng serve --port 4204 --extra-webpack-config webpack.config.js",
     "build": "ng build --extra-webpack-config webpack.config.js",
     "watch": "ng build --watch --configuration development --extra-webpack-config webpack.config.js",
     "test": "ng test"
   },
   "private": true,
   "dependencies": {
-    "@angular-architects/module-federation": "^16.0.4",
+    "@angular-architects/module-federation": "^15.0.0",
     "@angular/animations": "^15.2.10",
     "@angular/common": "^15.2.10",
     "@angular/compiler": "^15.2.10",

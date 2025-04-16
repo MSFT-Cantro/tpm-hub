@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common'; // Changed from BrowserModule
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { RouterModule } from '@angular/router';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -22,6 +23,7 @@ import { ModalComponent } from './components/modal/modal.component';
   ],
   imports: [
     CommonModule, // Changed from BrowserModule
+    RouterModule,
     AppRoutingModule,
     ReactiveFormsModule,
     FormsModule,

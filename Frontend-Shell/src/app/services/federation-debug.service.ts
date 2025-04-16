@@ -16,14 +16,14 @@ export interface FederationDebugInfo {
   providedIn: 'root'
 })
 export class FederationDebugService {
-  private readonly DEBUG_STORAGE_KEY = 'tpm_hub_federation_debug';
-  private debugLogs: FederationDebugInfo[] = [];
-  private debugSubject = new BehaviorSubject<FederationDebugInfo[]>([]);
-  
+  private readonly DEBUG_STORAGE_KEY = 'federation_debug_logs';
+  private debugLogs: any[] = [];
+  private debugSubject = new BehaviorSubject<any[]>([]);
+  private networkMetrics: Map<string, { attempts: number, failures: number, avgLoadTime: number }> = new Map();
+
   constructor() {
     this.loadLogsFromStorage();
     this.setupGlobalErrorHandlers();
-    this.debugLog('info', 'Federation debug service initialized');
   }
 
   /**
@@ -60,6 +60,26 @@ export class FederationDebugService {
   }
 
   /**
+   * Track module loading performance and failures
+   */
+  trackModuleMetrics(remoteName: string, loadTime?: number, failed: boolean = false) {
+    const metrics = this.networkMetrics.get(remoteName) || { attempts: 0, failures: 0, avgLoadTime: 0 };
+    metrics.attempts++;
+    if (failed) {
+      metrics.failures++;
+    }
+    if (loadTime) {
+      metrics.avgLoadTime = ((metrics.avgLoadTime * (metrics.attempts - 1)) + loadTime) / metrics.attempts;
+    }
+    this.networkMetrics.set(remoteName, metrics);
+    
+    this.debugLog('info', `Module metrics for ${remoteName}`, {
+      ...metrics,
+      successRate: ((metrics.attempts - metrics.failures) / metrics.attempts * 100).toFixed(2) + '%'
+    });
+  }
+
+  /**
    * Check if Module Federation is properly initialized
    */
   checkFederationSetup(): void {
@@ -69,7 +89,8 @@ export class FederationDebugService {
         const federationKeys = windowKeys.filter(k => 
           k.includes('meme_generator') || 
           k.includes('sos_update') || 
-          k.includes('deployment_readiness') || 
+          k.includes('deployment_readiness') ||
+          k.includes('f1TrackingApp') ||
           k.includes('webpack') || 
           k.includes('share')
         );
@@ -101,7 +122,8 @@ export class FederationDebugService {
         const remotes = [
           { name: 'meme_generator', port: 4203 },
           { name: 'sos_update', port: 4201 },
-          { name: 'deployment_readiness', port: 4202 }
+          { name: 'deployment_readiness', port: 4202 },
+          { name: 'f1TrackingApp', port: 4205 }
         ];
         
         remotes.forEach(remote => {
@@ -150,10 +172,15 @@ export class FederationDebugService {
     // Capture unhandled Promise rejections that might be related to federation
     window.addEventListener('unhandledrejection', (event) => {
       if (this.isFederationError(event.reason)) {
-        this.debugLog('error', 'Unhandled Promise rejection in federation', {
+        const details = {
+          type: 'unhandledrejection',
+          timestamp: new Date().toISOString(),
           message: event.reason?.message || String(event.reason),
-          stack: event.reason?.stack
-        });
+          stack: event.reason?.stack,
+          url: window.location.href
+        };
+        
+        this.debugLog('error', 'Federation Promise Rejection', details);
       }
     });
     
@@ -161,14 +188,16 @@ export class FederationDebugService {
     const originalOnError = window.onerror;
     window.onerror = (message, source, lineno, colno, error) => {
       if (this.isFederationError(error || message)) {
-        this.debugLog('error', 'Global error in federation', {
-          message,
+        const details = {
           source,
           lineno,
           colno,
-          errorMessage: error?.message,
-          stack: error?.stack
-        });
+          errorMessage: error?.message || String(message),
+          stack: error?.stack,
+          url: window.location.href
+        };
+        
+        this.debugLog('error', 'Federation Global Error', details);
       }
       
       // Call original handler if it exists
@@ -194,26 +223,48 @@ export class FederationDebugService {
            errorStr.includes('webpack') ||
            errorStr.includes('meme_generator') ||
            errorStr.includes('sos_update') ||
-           errorStr.includes('deployment_readiness');
+           errorStr.includes('deployment_readiness') ||
+           errorStr.includes('f1TrackingApp');
   }
   
   /**
-   * Check if a remote endpoint is available
+   * Check remote endpoint with additional diagnostics
    */
   private checkRemoteEndpoint(baseUrl: string, remoteName: string): void {
+    const startTime = performance.now();
     fetch(`${baseUrl}/remoteEntry.js`)
-      .then(response => {
+      .then(async response => {
+        const loadTime = performance.now() - startTime;
+        const headerObj: Record<string, string> = {};
+        response.headers.forEach((value, key) => {
+          headerObj[key] = value;
+        });
+        
         if (response.ok) {
-          this.debugLog('info', `${remoteName} endpoint is available`, { url: `${baseUrl}/remoteEntry.js` });
+          this.debugLog('info', `${remoteName} endpoint is available`, { 
+            url: `${baseUrl}/remoteEntry.js`,
+            loadTime: `${loadTime.toFixed(2)}ms`,
+            headers: headerObj,
+            status: response.status
+          });
+          this.trackModuleMetrics(remoteName, loadTime);
         } else {
-          this.debugLog('warn', `${remoteName} endpoint returned status ${response.status}`, { url: `${baseUrl}/remoteEntry.js` });
+          this.debugLog('warn', `${remoteName} endpoint returned status ${response.status}`, { 
+            url: `${baseUrl}/remoteEntry.js`,
+            loadTime: `${loadTime.toFixed(2)}ms`,
+            headers: headerObj
+          });
+          this.trackModuleMetrics(remoteName, loadTime, true);
         }
       })
       .catch(err => {
+        const loadTime = performance.now() - startTime;
         this.debugLog('error', `${remoteName} endpoint is not accessible`, { 
           url: `${baseUrl}/remoteEntry.js`,
-          error: err.message 
+          error: err.message,
+          loadTime: `${loadTime.toFixed(2)}ms`
         });
+        this.trackModuleMetrics(remoteName, loadTime, true);
       });
   }
   

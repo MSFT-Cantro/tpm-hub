@@ -6,10 +6,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./meme-generator.component.scss']
 })
 export class MemeGeneratorComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit(): void {
+  constructor() { 
+    console.log('MemeGeneratorComponent constructed');
   }
 
+  ngOnInit(): void {
+    console.log('MemeGeneratorComponent initialized');
+  }
 }

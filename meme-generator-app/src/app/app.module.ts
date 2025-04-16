@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, Routes } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -7,40 +8,31 @@ import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { MemeGeneratorComponent } from './components/meme-generator/meme-generator.component';
 
-// Define routes for the main app
+// Routes for both standalone and federated use
 const routes: Routes = [
-  { path: '', component: MemeGeneratorComponent },
-  { path: '**', redirectTo: '' }
-];
-
-// Define child routes for the federated module
-const childRoutes: Routes = [
   { path: '', component: MemeGeneratorComponent }
 ];
 
-// Properly defined module for Module Federation - defined first to avoid circular dependency
+// This module will be loaded by the shell application
 @NgModule({
-  declarations: [
-    MemeGeneratorComponent
-  ],
+  declarations: [MemeGeneratorComponent],
   imports: [
     CommonModule,
-    RouterModule.forChild(childRoutes),
-    FormsModule
+    FormsModule,
+    RouterModule.forChild(routes)
   ],
-  providers: [],
-  exports: [MemeGeneratorComponent]
+  providers: []
 })
 export class MemeGeneratorModule { }
 
+// This module is used when running standalone
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     RouterModule.forRoot(routes),
-    MemeGeneratorModule // Import MemeGeneratorModule here to use its components
+    MemeGeneratorModule
   ],
   providers: [],
   bootstrap: [AppComponent]

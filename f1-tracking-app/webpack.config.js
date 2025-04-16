@@ -3,20 +3,19 @@ const path = require('path');
 
 module.exports = {
   output: {
-    publicPath: "http://localhost:4204/",
-    uniqueName: "status_update",
-    path: path.join(__dirname, 'dist/status-update-app'),
+    publicPath: "http://localhost:4205/",
+    uniqueName: "f1TrackingApp",
+    path: path.join(__dirname, 'dist/f1-tracking-app'),
     filename: '[name].js'
   },
   optimization: {
     runtimeChunk: false
   },
   devServer: {
-    // Ensure the dev server correctly serves the remoteEntry.js file
     static: {
-      directory: path.join(__dirname, 'dist/status-update-app'),
+      directory: path.join(__dirname, 'dist/f1-tracking-app'),
     },
-    port: 4204,
+    port: 4205,
     historyApiFallback: true,
     headers: {
       "Access-Control-Allow-Origin": "*",
@@ -26,31 +25,32 @@ module.exports = {
   },
   plugins: [
     new ModuleFederationPlugin({
-      name: 'status_update',
-      library: { type: 'var', name: 'status_update' },      filename: 'remoteEntry.js',
+      name: 'f1TrackingApp',
+      library: { type: 'var', name: 'f1TrackingApp' },
+      filename: 'remoteEntry.js',
       exposes: {
-        './StatusUpdateModule': './src/app/app.module.ts#StatusUpdateModule'
+        './F1TrackingModule': './src/app/app.module.ts'
       },
       shared: {
         "@angular/core": { 
           singleton: true, 
           strictVersion: false,
-          requiredVersion: '^15.0.0'
+          requiredVersion: '^16.0.0'
         },
         "@angular/common": { 
           singleton: true, 
           strictVersion: false,
-          requiredVersion: '^15.0.0'
+          requiredVersion: '^16.0.0'
         },
         "@angular/router": { 
           singleton: true, 
           strictVersion: false,
-          requiredVersion: '^15.0.0'
+          requiredVersion: '^16.0.0'
         },
         "@angular/common/http": { 
           singleton: true, 
           strictVersion: false,
-          requiredVersion: '^15.0.0'
+          requiredVersion: '^16.0.0'
         },
         "rxjs": {
           singleton: true,

@@ -9,6 +9,7 @@ import { NavigationComponent } from './components/navigation/navigation.componen
 import { ThemeToggleComponent } from './components/theme-toggle/theme-toggle.component';
 import { SettingsModalComponent } from './components/settings-modal/settings-modal.component';
 import { ErrorLoggingService } from './services/error-logging.service';
+import { FederationHealthService } from './services/federation-health.service';
 
 // Custom error handler to capture Angular errors
 @Injectable()
@@ -36,9 +37,9 @@ class GlobalErrorHandler implements ErrorHandler {
     FormsModule,
     AppRoutingModule,
     HttpClientModule
-  ],
-  providers: [
+  ],  providers: [
     ErrorLoggingService,
+    FederationHealthService,
     { provide: ErrorHandler, useClass: GlobalErrorHandler }
   ],
   bootstrap: [AppComponent]

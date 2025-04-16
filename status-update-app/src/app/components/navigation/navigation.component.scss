@@ -1,0 +1,40 @@
+.nav-container {
+  padding: 1rem;
+  
+  .nav-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .nav-item {
+    margin-bottom: 0.5rem;
+    
+    a {
+      display: flex;
+      align-items: center;
+      padding: 0.75rem 1rem;
+      text-decoration: none;
+      color: var(--text-primary);
+      border-radius: 4px;
+      transition: background-color 0.2s;
+
+      &:hover {
+        background-color: var(--bg-hover);
+      }
+
+      &.active {
+        background-color: var(--accent-primary);
+        color: white;
+      }
+    }
+  }
+
+  .nav-icon {
+    margin-right: 0.75rem;
+  }
+
+  .nav-text {
+    font-size: 1rem;
+  }
+}

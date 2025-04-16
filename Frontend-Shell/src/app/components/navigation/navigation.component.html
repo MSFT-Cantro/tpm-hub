@@ -18,5 +18,17 @@
         <span class="text">Meme Generator</span>
       </a>
     </li>
+    <li>
+      <a routerLink="/status-update" routerLinkActive="active" [attr.aria-current]="router.isActive('/status-update', false) ? 'page' : null">
+        <span class="icon" aria-hidden="true">📊</span>
+        <span class="text">Status Update</span>
+      </a>
+    </li>
+    <li>
+      <a routerLink="/f1-tracking" routerLinkActive="active" [attr.aria-current]="router.isActive('/f1-tracking', false) ? 'page' : null">
+        <span class="icon" aria-hidden="true">🏎️</span>
+        <span class="text">F1 Tracker</span>
+      </a>
+    </li>
   </ul>
 </nav>

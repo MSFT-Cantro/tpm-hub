@@ -13,6 +13,7 @@ export function loadRemoteModule(
   exposedModule: string
 ) {
   console.log(`Loading remote module on demand: ${remoteName}/${exposedModule}`);
+  const startTime = performance.now();
   
   // Use standard script-based loading without the 'type' parameter
   return federationLoadRemoteModule({
@@ -21,7 +22,8 @@ export function loadRemoteModule(
     exposedModule
   })
   .then(module => {
-    console.log(`Successfully loaded module: ${remoteName}/${exposedModule}`, module);
+    const loadTime = performance.now() - startTime;
+    console.log(`Successfully loaded module: ${remoteName}/${exposedModule} in ${loadTime.toFixed(2)}ms`, module);
     // Check for the specific module names we know about
     if (module.SosUpdateModule) {
       console.log('Found SosUpdateModule, returning it');
@@ -68,6 +70,16 @@ export const remotes = {
     remoteEntry: '//localhost:4203/remoteEntry.js',
     remoteName: 'meme_generator',
     exposedModule: './MemeGeneratorModule'
+  },
+  statusUpdate: {
+    remoteEntry: '//localhost:4204/remoteEntry.js',
+    remoteName: 'status_update',
+    exposedModule: './StatusUpdateModule'
+  },
+  f1Tracking: {
+    remoteEntry: '//localhost:4205/remoteEntry.js',
+    remoteName: 'f1TrackingApp',
+    exposedModule: './F1TrackingModule'
   }
 };
 
@@ -75,3 +87,5 @@ export const remotes = {
 export const sosUpdateRemoteEntry = remotes.sosUpdate.remoteEntry;
 export const deploymentReadinessRemoteEntry = remotes.deploymentReadiness.remoteEntry;
 export const memeGeneratorRemoteEntry = remotes.memeGenerator.remoteEntry;
+export const statusUpdateRemoteEntry = remotes.statusUpdate.remoteEntry;
+export const f1TrackingRemoteEntry = remotes.f1Tracking.remoteEntry;

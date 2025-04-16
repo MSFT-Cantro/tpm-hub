@@ -3,7 +3,7 @@ const path = require('path');
 
 module.exports = {
   output: {
-    publicPath: "http://localhost:4203/",
+    publicPath: "auto",
     uniqueName: "meme_generator",
     path: path.join(__dirname, 'dist/meme-generator-app'),
     filename: '[name].js'
@@ -29,28 +29,43 @@ module.exports = {
       library: { type: 'var', name: 'meme_generator' },
       filename: 'remoteEntry.js',
       exposes: {
-        './MemeGeneratorModule': './src/app/app.module.ts'
+        './MemeGeneratorModule': './src/app/app.module#MemeGeneratorModule'
       },
       shared: {
         "@angular/core": { 
           singleton: true, 
           strictVersion: false,
-          requiredVersion: '^14.0.0'
+          requiredVersion: '^16.0.0'
         },
         "@angular/common": { 
           singleton: true, 
           strictVersion: false,
-          requiredVersion: '^14.0.0'
+          requiredVersion: '^16.0.0'
         },
         "@angular/router": { 
           singleton: true, 
           strictVersion: false,
-          requiredVersion: '^14.0.0'
+          requiredVersion: '^16.0.0'
         },
         "@angular/common/http": { 
           singleton: true, 
           strictVersion: false,
-          requiredVersion: '^14.0.0'
+          requiredVersion: '^16.0.0'
+        },
+        "@angular/platform-browser": { 
+          singleton: true, 
+          strictVersion: false,
+          requiredVersion: '^16.0.0'
+        },
+        "@angular/platform-browser-dynamic": { 
+          singleton: true, 
+          strictVersion: false,
+          requiredVersion: '^16.0.0'
+        },
+        "@angular/animations": { 
+          singleton: true, 
+          strictVersion: false,
+          requiredVersion: '^16.0.0'
         },
         "rxjs": {
           singleton: true,
